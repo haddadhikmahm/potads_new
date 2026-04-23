@@ -33,7 +33,7 @@ class MemberController extends Controller
             'is_parent' => ['required', 'boolean'],
             'username' => ['required', 'string', 'max:255', Rule::unique(User::class)->ignore($member->id)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'in:reguler,admin'],
+            'role' => ['required', 'in:user,admin'],
         ]);
 
         $data = $validated;

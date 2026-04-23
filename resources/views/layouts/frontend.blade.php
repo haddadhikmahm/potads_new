@@ -43,10 +43,18 @@
         <div class="hidden md:flex items-center gap-4">
             @auth
                 <div class="flex items-center gap-4">
-                    <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}" class="text-white hover:text-potads-yellow transition flex items-center gap-2">
-                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-                        <span class="inline font-medium">{{ auth()->user()->name }}</span>
-                    </a>
+                    @if(auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="text-white hover:text-potads-yellow transition flex items-center gap-2">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span class="inline font-medium">{{ auth()->user()->name }}</span>
+                        </a>
+                    @else
+                        <span class="text-white font-medium flex items-center gap-2">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                            {{ auth()->user()->name }}
+                        </span>
+                    @endif
+
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-red-600 transition text-sm flex items-center gap-2">
@@ -82,10 +90,18 @@
 
             @auth
                 <div class="w-full py-2 flex flex-col items-center gap-4 mt-4">
-                    <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('dashboard') }}" class="text-potads-yellow hover:text-white transition flex items-center gap-2">
-                        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-                        <span class="font-medium">{{ auth()->user()->name }}</span>
-                    </a>
+                    @if(auth()->user()->role === 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="text-potads-yellow hover:text-white transition flex items-center gap-2">
+                            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                            <span class="font-medium">{{ auth()->user()->name }}</span>
+                        </a>
+                    @else
+                        <span class="text-white font-medium flex items-center gap-2">
+                            <i data-lucide="user" class="w-5 h-5"></i>
+                            {{ auth()->user()->name }}
+                        </span>
+                    @endif
+
                     <form method="POST" action="{{ route('logout') }}" class="w-full flex justify-center">
                         @csrf
                         <button type="submit" class="bg-red-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-red-600 transition text-sm flex items-center gap-2">

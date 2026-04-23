@@ -117,8 +117,8 @@
             <h4 class="text-sm font-bold text-potads-blue mb-6">Role / Hak Akses</h4>
             <div class="flex gap-10">
                 <label class="flex items-center gap-3 cursor-pointer group">
-                    <input type="radio" name="role" value="reguler" {{ old('role', $member->role) === 'reguler' ? 'checked' : '' }} class="w-5 h-5 border-blue-300 text-potads-blue focus:ring-potads-blue">
-                    <span class="text-sm font-bold text-slate-600 group-hover:text-potads-blue transition-colors">Reguler</span>
+                    <input type="radio" name="role" value="user" {{ old('role', $member->role) === 'user' ? 'checked' : '' }} class="w-5 h-5 border-blue-300 text-potads-blue focus:ring-potads-blue">
+                    <span class="text-sm font-bold text-slate-600 group-hover:text-potads-blue transition-colors">User</span>
                 </label>
                 <label class="flex items-center gap-3 cursor-pointer group">
                     <input type="radio" name="role" value="admin" {{ old('role', $member->role) === 'admin' ? 'checked' : '' }} class="w-5 h-5 border-blue-300 text-potads-blue focus:ring-potads-blue">

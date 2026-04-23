@@ -14,11 +14,11 @@
 </div>
 
 
-<!-- Section 1: Approval Artikel User Reguler -->
+<!-- Section 1: Approval Artikel User -->
 <div class="mb-12">
     <div class="flex items-center gap-2 mb-6 ml-2">
         <div class="w-2 h-6 bg-blue-600 rounded-full"></div>
-        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">Approval Artikel User Reguler</h3>
+        <h3 class="text-sm font-extrabold text-slate-800 uppercase tracking-widest">Approval Artikel User</h3>
     </div>
     
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-50 overflow-hidden">

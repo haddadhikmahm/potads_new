@@ -46,10 +46,10 @@
 
         /* SweetAlert2 Premium Customization */
         .swal2-popup {
-            border-radius: 2.5rem !important;
-            padding: 4.5rem 4rem !important;
+            border-radius: 1.5rem !important;
+            padding: 3.5rem 5rem !important;
             font-family: 'Plus Jakarta Sans', sans-serif !important;
-            width: 560px !important;
+            width: 750px !important;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
         }
         .swal2-title {
@@ -74,29 +74,29 @@
         }
         .swal2-confirm, .swal2-cancel {
             margin: 0 !important;
-            height: 85px !important;
+            height: 100px !important;
             border-radius: 9999px !important;
             font-weight: 800 !important;
             font-size: 1.35rem !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
-        .swal2-styled.swal2-confirm {
+        .swal2-confirm {
             background-color: #0f407a !important;
             color: white !important;
             flex: 1;
             box-shadow: 0 10px 20px -5px rgba(15, 64, 122, 0.3) !important;
         }
-        .swal2-styled.swal2-confirm.swal2-danger {
+        .swal2-confirm.swal2-danger {
             background-color: #c22020 !important;
             box-shadow: 0 10px 20px -5px rgba(194, 32, 32, 0.3) !important;
         }
-        .swal2-styled.swal2-cancel {
+        .swal2-cancel {
             background-color: #fff !important;
             color: #475569 !important;
             border: 2px solid #cbd5e1 !important;
             flex: 1;
         }
-        .swal2-styled.swal2-confirm:hover {
+        .swal2-confirm:hover {
             transform: translateY(-2px) !important;
             filter: brightness(1.1) !important;
         }
@@ -156,16 +156,15 @@
             font-size: 3rem !important;
         }
         
-        /* Specific override for full-width buttons on non-confirm alerts */
-        .swal2-success-popup .swal2-actions,
-        .swal2-error-popup .swal2-actions,
-        .swal2-info-popup .swal2-actions {
-            flex-direction: column !important;
+        /* Ensure horizontal actions */
+        .swal2-actions {
+            flex-direction: row !important;
+            justify-content: center !important;
         }
-        .swal2-success-popup .swal2-confirm,
-        .swal2-error-popup .swal2-confirm,
-        .swal2-info-popup .swal2-confirm {
-            width: 100% !important;
+        .swal2-confirm, .swal2-cancel {
+            width: auto !important;
+            min-width: 200px !important;
+            padding: 0 3rem !important;
         }
     </style>
 </head>
@@ -324,14 +323,14 @@
                 Swal.fire({
                     title: '',
                     html: `
-                        <div class="flex flex-col items-center py-4">
+                        <div class="flex flex-col items-center py-4 text-center">
                             <div class="w-24 h-24 bg-[#def7ed] rounded-full flex items-center justify-center mb-10">
                                 <svg class="w-12 h-12 text-[#059669]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="4">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
                                 </svg>
                             </div>
                             <h2 class="text-3xl font-black text-[#1e293b] mb-4">Data Berhasil Disimpan</h2>
-                            <p class="text-lg text-[#64748b] leading-relaxed text-center px-4 mb-2">
+                            <p class="text-lg text-[#64748b] leading-relaxed px-10">
                                 Perubahan Anda telah berhasil diperbarui ke sistem.
                             </p>
                         </div>
@@ -361,14 +360,14 @@
                 Swal.fire({
                     title: '',
                     html: `
-                        <div class="flex flex-col items-center py-4">
+                        <div class="flex flex-col items-center py-4 text-center">
                             <div class="w-28 h-28 bg-[#fefce8] rounded-full flex items-center justify-center mb-10">
                                 <svg class="w-14 h-14 text-[#eab308]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                                 </svg>
                             </div>
-                            <h2 class="text-[2.25rem] font-black text-[#1e293b] mb-4">Hapus Data Ini?</h2>
-                            <p class="text-[1.25rem] text-[#64748b] leading-relaxed text-center px-6 mb-2">
+                            <h2 class="text-3xl font-black text-[#1e293b] mb-4">Hapus Data Ini?</h2>
+                            <p class="text-lg text-[#64748b] leading-relaxed px-10">
                                 Apakah Anda yakin ingin menghapus data ini? Aksi ini tidak dapat dibatalkan.
                             </p>
                         </div>
