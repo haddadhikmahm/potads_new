@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Hero Section -->
-    <section class="px-6 md:px-12 lg:px-20 py-16 md:py-24 bg-white overflow-hidden">
+    <section class="px-6 md:px-12 lg:px-20 py-16 md:py-24 bg-transparent overflow-hidden">
         <div class="max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             <div class="w-full lg:w-1/2 text-center lg:text-left">
                 <span class="bg-yellow-100 text-yellow-700 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 md:mb-8 inline-block">PERJALANAN KAMI</span>
@@ -23,7 +23,7 @@
     </section>
 
     <!-- Kisah Pendirian -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-[#F8FBFF]">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-pastel-blue rounded-[3rem] mx-4 md:mx-12 my-12 border-4 border-white shadow-xl" data-aos="fade-up">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl md:text-5xl font-extrabold text-potads-blue mb-16 tracking-tight text-center">
                 <span class="text-potads-yellow opacity-40">——</span> Kisah Pendirian <span class="text-potads-yellow opacity-40">——</span>
@@ -53,7 +53,7 @@
     </section>
 
     <!-- Profil Yayasan (Cards) -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-white">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-transparent" data-aos="fade-up">
         <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
             <!-- Visi Card -->
             <div class="bg-potads-blue text-white p-8 md:p-16 rounded-[2rem] md:rounded-[3rem] shadow-2xl flex flex-col justify-between min-h-[400px] md:min-h-[500px]">
@@ -113,7 +113,7 @@
     </section>
 
     <!-- Arti Logo Kami -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-gray-50/50 overflow-hidden">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-pastel-yellow rounded-[3rem] mx-4 md:mx-12 my-12 border-4 border-white shadow-xl overflow-hidden" data-aos="fade-up">
         <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="relative w-full max-w-[550px] aspect-square bg-white rounded-full shadow-2xl flex items-center justify-center p-12 md:p-20 border-4 md:border-8 border-white group">
@@ -160,7 +160,7 @@
     </section>
 
     <!-- Jantung dari Yayasan -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-white">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-transparent" data-aos="fade-up">
         <div class="max-w-7xl mx-auto text-center mb-16 md:mb-24">
             <h2 class="text-3xl md:text-5xl font-black text-potads-blue mb-6">Jantung dari Yayasan</h2>
             <p class="text-gray-500 max-w-2xl mx-auto text-lg md:text-xl font-medium">Kenali para visioner, pendidik, dan aktivis yang bekerja tanpa lelah di balik layar.</p>
@@ -168,7 +168,7 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <!-- Team Member 1 -->
             <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-yellow">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden">
+                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop" alt="Dr. Sarah Widjaja" class="w-full h-full object-cover">
                 </div>
                 <div class="p-8 flex-grow">
@@ -179,7 +179,7 @@
             </div>
             <!-- Team Member 2 -->
             <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-blue">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden">
+                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" alt="Marcus Chen" class="w-full h-full object-cover">
                 </div>
                 <div class="p-8 flex-grow">
@@ -190,7 +190,7 @@
             </div>
             <!-- Team Member 3 -->
             <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-yellow">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden">
+                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop" alt="Anita Putri" class="w-full h-full object-cover">
                 </div>
                 <div class="p-8 flex-grow">
@@ -201,7 +201,7 @@
             </div>
             <!-- Team Member 4 -->
             <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-blue">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden">
+                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
                     <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1887&auto=format&fit=crop" alt="Rizky Ramadhan" class="w-full h-full object-cover">
                 </div>
                 <div class="p-8 flex-grow">
@@ -214,7 +214,7 @@
     </section>
 
     <!-- Program Yayasan -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-gray-50/30">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-pastel-pink rounded-[3rem] mx-4 md:mx-12 my-12 border-4 border-white shadow-xl" data-aos="fade-up">
         <div class="max-w-7xl mx-auto text-center mb-16 md:mb-20">
             <h2 class="text-3xl md:text-5xl font-extrabold text-potads-blue mb-6">Program Yayasan</h2>
             <p class="text-gray-500 text-lg md:text-xl">Inisiatif nyata kami dalam mendukung kemajuan anak-anak istimewa.</p>
@@ -233,7 +233,7 @@
                 ];
             @endphp
             @foreach($images as $img)
-                <div class="aspect-[4/5] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden relative group cursor-pointer shadow-xl">
+                <div class="aspect-[4/5] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden relative group cursor-pointer shadow-xl bg-white">
                     <img src="{{ $img }}?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-4 md:p-8">
                         <span class="text-white font-bold text-sm md:text-lg">Lihat Program</span>
@@ -244,7 +244,7 @@
     </section>
 
     <!-- Motto Yayasan -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-white">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-transparent" data-aos="fade-up">
         <div class="max-w-7xl mx-auto text-center mb-16 md:mb-20">
             <h2 class="text-3xl md:text-5xl font-black text-potads-blue">Motto Yayasan</h2>
         </div>
@@ -278,7 +278,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="px-6 md:px-12 py-20 md:py-32 bg-[#F8FBFF]">
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-pastel-purple rounded-[3rem] mx-4 md:mx-12 my-12 border-4 border-white shadow-xl" data-aos="fade-up">
         <div class="max-w-4xl mx-auto text-center mb-16 md:mb-24">
             <h2 class="text-3xl md:text-5xl font-extrabold text-potads-blue leading-tight">Tanya Jawab</h2>
         </div>

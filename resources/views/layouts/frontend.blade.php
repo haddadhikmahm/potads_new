@@ -6,20 +6,87 @@
     <title>@yield('title', 'PIK POTADS')</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .bg-potads-blue { background-color: #003D73; }
-        .text-potads-blue { color: #003D73; }
-        .bg-potads-yellow { background-color: #FFD700; }
-        .text-potads-yellow { color: #FFD700; }
-        .border-potads-blue { border-color: #003D73; }
-        .border-potads-yellow { border-color: #FFD700; }
+        body { 
+            font-family: 'Nunito', sans-serif; 
+            background-color: #DDF3FF;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.9) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, #FFFFFF 0%, #DDF3FF 60%, #9BD8FF 100%);
+            background-attachment: fixed;
+        }
+        h1, h2, h3, h4, h5, h6, .font-black, .font-extrabold { font-family: 'Fredoka', sans-serif; letter-spacing: 0.5px; }
+        
+        .bg-potads-blue { background-color: #1E88E5; } /* Vibrant Royal Blue */
+        .text-potads-blue { color: #0D47A1; } /* Darker blue for readable text */
+        .bg-potads-yellow { background-color: #FFC107; } /* Pure vivid Yellow */
+        .text-potads-yellow { color: #FFC107; }
+        .border-potads-blue { border-color: #1E88E5; }
+        .border-potads-yellow { border-color: #FFC107; }
+
+        /* Playful Candy Colors (Soft & Harmonious for Sections) */
+        .bg-pastel-blue { background-color: #E0F2FE; color: #0D47A1; } /* Soft Sky */
+        .bg-pastel-pink { background-color: #FCE7F3; color: #0D47A1; } /* Soft Pink */
+        .bg-pastel-yellow { background-color: #FEF9C3; color: #0D47A1; } /* Soft Sunshine */
+        .bg-pastel-green { background-color: #DCFCE7; color: #0D47A1; } /* Soft Mint */
+        .bg-pastel-purple { background-color: #F3E8FF; color: #0D47A1; } /* Soft Lavender */
+        
+        /* Bouncy Button */
+        .btn-playful {
+            border-radius: 9999px;
+            box-shadow: 0 6px 0 0 rgba(0,0,0,0.25);
+            border: 3px solid #FFFFFF;
+            transition: all 0.1s;
+        }
+        .btn-playful:active {
+            transform: translateY(6px);
+            box-shadow: none;
+        }
+        .btn-playful:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #003D73;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        body.loading {
+            overflow: hidden;
+        }
     </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     @stack('styles')
 </head>
-<body class="bg-white text-gray-800">
+<body class="text-gray-800 loading">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
 
     <!-- Navbar -->
     <nav class="bg-potads-blue py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50 relative">
@@ -180,7 +247,24 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            document.body.classList.remove('loading');
+            preloader.style.opacity = '0';
+            preloader.style.visibility = 'hidden';
+            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+        });
+
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100,
+        });
+
         lucide.createIcons();
 
         // Mobile Menu Toggle

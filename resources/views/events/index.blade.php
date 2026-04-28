@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Header Section -->
-    <header class="px-6 md:px-12 lg:px-16 py-16 max-w-[1850px] mx-auto text-left">
+    <header class="px-6 md:px-12 lg:px-16 py-16 max-w-[1850px] mx-auto text-left" data-aos="fade-up">
         <h1 class="text-6xl md:text-8xl font-black text-potads-blue mb-8 leading-[1.1]">
             Koneksi <br>
             <span class="ml-12 lg:ml-24 inline-block bg-potads-yellow px-8 py-2 rounded-[1.5rem] text-potads-blue">Komunitas</span>
@@ -15,14 +15,14 @@
 
         <!-- Filters -->
         <div class="flex flex-wrap gap-4 mb-20">
-            <button class="bg-potads-yellow text-potads-blue font-extrabold px-10 py-2.5 rounded-full shadow-lg transition">Upcoming</button>
-            <button class="bg-white text-potads-blue/60 font-bold px-10 py-2.5 rounded-full border border-potads-blue/10 hover:bg-gray-50 transition">Recent</button>
-            <button class="bg-white text-potads-blue/60 font-bold px-10 py-2.5 rounded-full border border-potads-blue/10 hover:bg-gray-50 transition">Passed</button>
+            <button class="bg-potads-yellow text-potads-blue font-extrabold px-10 py-2.5 rounded-full btn-playful shadow-lg transition">Upcoming</button>
+            <button class="bg-white text-potads-blue/60 font-bold px-10 py-2.5 rounded-full border-2 border-potads-blue/10 hover:bg-gray-50 transition btn-playful">Recent</button>
+            <button class="bg-white text-potads-blue/60 font-bold px-10 py-2.5 rounded-full border-2 border-potads-blue/10 hover:bg-gray-50 transition btn-playful">Passed</button>
         </div>
     </header>
 
     <!-- Events Layout -->
-    <section class="px-6 md:px-12 lg:px-16 pb-32 max-w-[1850px] mx-auto">
+    <section class="px-6 md:px-12 lg:px-16 pb-32 max-w-[1850px] mx-auto" data-aos="fade-up">
         @if($events->count() > 0)
             @php $events_list = $events->all(); @endphp
             
@@ -31,7 +31,7 @@
                 <!-- Large Featured Card -->
                 @if(isset($events_list[0]))
                     @php $event = $events_list[0]; @endphp
-                    <div class="lg:col-span-7 relative h-[600px] md:h-[750px] rounded-[3rem] overflow-hidden group shadow-2xl">
+                    <div class="lg:col-span-7 relative h-[600px] md:h-[750px] rounded-[3rem] overflow-hidden group shadow-2xl border-4 border-white bg-white">
                         <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-potads-blue/20 to-transparent p-12 flex flex-col justify-end">
                             <h3 class="text-4xl md:text-5xl font-black text-white mb-8 leading-tight max-w-2xl">{{ $event->title }}</h3>
@@ -51,7 +51,7 @@
                 <!-- Secondary Card -->
                 @if(isset($events_list[1]))
                     @php $event = $events_list[1]; @endphp
-                    <div class="lg:col-span-5 relative h-[450px] md:h-[550px] rounded-[3rem] overflow-hidden group shadow-2xl self-start">
+                    <div class="lg:col-span-5 relative h-[450px] md:h-[550px] rounded-[3rem] overflow-hidden group shadow-2xl self-start border-4 border-white bg-white">
                         <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-transparent to-transparent p-10 flex flex-col justify-end">
                             <h3 class="text-3xl font-black text-white mb-6 leading-tight">{{ $event->title }}</h3>
@@ -72,7 +72,7 @@
             <!-- Bottom Row Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 @foreach(array_slice($events_list, 2) as $event)
-                    <div class="relative h-[400px] rounded-[2.5rem] overflow-hidden group shadow-xl">
+                    <div class="relative h-[400px] rounded-[2.5rem] overflow-hidden group shadow-xl border-4 border-white bg-white">
                         <!-- Date Badge -->
                         <div class="absolute top-0 left-0 z-20">
                             <div class="bg-potads-yellow text-potads-blue font-black px-6 py-2 rounded-br-2xl text-sm">
@@ -110,12 +110,12 @@
     </section>
 
     <!-- Create Event CTA -->
-    <section class="px-6 md:px-12 lg:px-16 py-32 bg-[#F8FBFF]">
+    <section class="px-6 md:px-12 lg:px-16 py-32 bg-pastel-green rounded-[3rem] mx-4 md:mx-12 my-12 border-4 border-white shadow-xl" data-aos="fade-up">
         <div class="max-w-[1600px] mx-auto flex flex-col lg:flex-row items-center gap-20">
             <div class="w-full lg:w-1/2 relative">
                 <!-- Floating decorative element -->
                 <div class="absolute -top-10 -left-10 w-40 h-40 bg-potads-yellow/20 rounded-full blur-3xl"></div>
-                <div class="relative rounded-[3rem] overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)]">
+                <div class="relative rounded-[3rem] overflow-hidden shadow-[0_40px_80px_-15px_rgba(0,0,0,0.2)] bg-white border-4 border-white">
                     <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" alt="Adakan Acara" class="w-full h-[550px] object-cover">
                 </div>
             </div>
@@ -126,7 +126,7 @@
                 <p class="text-gray-500 text-xl mb-12 leading-relaxed">
                     Apakah Anda memiliki ide untuk acara yang mendukung misi kami? Kami menawarkan sumber daya, ruang, dan dukungan organisasi untuk inisiatif yang dipimpin komunitas.
                 </p>
-                <button class="bg-potads-yellow text-potads-blue font-black px-12 py-5 rounded-[1.5rem] shadow-[0_20px_40px_-10px_rgba(255,214,0,0.4)] hover:bg-yellow-400 transition transform hover:-translate-y-1 text-lg">
+                <button class="bg-potads-yellow text-potads-blue font-black px-12 py-5 rounded-full btn-playful text-lg">
                     Hubungi Kami
                 </button>
             </div>
