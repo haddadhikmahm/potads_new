@@ -13,7 +13,7 @@ class DashboardController extends Controller
             'users_count' => \App\Models\User::count(),
             'events_count' => \App\Models\Event::count(),
             'articles_count' => \App\Models\Article::count(),
-            'donations_total' => \App\Models\Donation::sum('amount'),
+            'donations_total' => \App\Models\Donation::where('payment_status', 'success')->sum('amount'),
         ];
 
         return view('admin.dashboard', compact('stats'));

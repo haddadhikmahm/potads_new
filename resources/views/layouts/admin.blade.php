@@ -192,6 +192,7 @@
                         ['route' => 'admin.medical-infos.index', 'label' => 'Info Akademis & Medis', 'icon' => 'activity'],
                         ['route' => 'admin.faqs.index', 'label' => 'FAQ', 'icon' => 'help-circle'],
                         ['route' => 'admin.members.index', 'label' => 'Member', 'icon' => 'users'],
+                        ['route' => 'admin.donations.index', 'label' => 'Donasi', 'icon' => 'heart'],
                         ['route' => 'admin.settings.index', 'label' => 'Site Settings', 'icon' => 'settings'],
                     ];
                 @endphp
@@ -201,6 +202,7 @@
                         $isActive = $item['route'] !== '#' && (request()->routeIs($item['route']) || (strpos($item['route'], 'index') === false && request()->routeIs(explode('.', $item['route'])[0].'.'.explode('.', $item['route'])[1].'.*')));
                         if ($item['label'] === 'Event' && request()->routeIs('admin.events.*')) $isActive = true;
                         if ($item['label'] === 'Berita/Artikel' && request()->routeIs('admin.articles.*')) $isActive = true;
+                        if ($item['label'] === 'Donasi' && request()->routeIs('admin.donations.*')) $isActive = true;
                     @endphp
                     <a href="{{ $item['route'] !== '#' ? route($item['route']) : 'javascript:void(0)' }}" 
                        class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 group {{ $isActive ? 'bg-potads-yellow text-potads-blue font-bold shadow-lg shadow-yellow-500/20' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">

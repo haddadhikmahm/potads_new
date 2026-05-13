@@ -116,10 +116,10 @@
                             <span class="inline font-medium">{{ auth()->user()->name }}</span>
                         </a>
                     @else
-                        <span class="text-white font-medium flex items-center gap-2">
+                        <a href="{{ route('profile') }}" class="text-white hover:text-potads-yellow transition flex items-center gap-2">
                             <i data-lucide="user" class="w-5 h-5"></i>
-                            {{ auth()->user()->name }}
-                        </span>
+                            <span class="inline font-medium">{{ auth()->user()->name }}</span>
+                        </a>
                     @endif
 
                     <form method="POST" action="{{ route('logout') }}">
@@ -163,10 +163,10 @@
                             <span class="font-medium">{{ auth()->user()->name }}</span>
                         </a>
                     @else
-                        <span class="text-white font-medium flex items-center gap-2">
+                        <a href="{{ route('profile') }}" class="text-white hover:text-potads-yellow transition flex items-center gap-2">
                             <i data-lucide="user" class="w-5 h-5"></i>
-                            {{ auth()->user()->name }}
-                        </span>
+                            <span class="font-medium">{{ auth()->user()->name }}</span>
+                        </a>
                     @endif
 
                     <form method="POST" action="{{ route('logout') }}" class="w-full flex justify-center">
@@ -247,15 +247,373 @@
         </div>
     </footer>
 
+    <!-- Floating Accessibility Widget -->
+    <div x-data="{ 
+            open: false, 
+            fontSize: localStorage.getItem('acc_fontSize') || 100, 
+            textSpacing: localStorage.getItem('acc_textSpacing') || 0,
+            lineHeight: localStorage.getItem('acc_lineHeight') || 1.5,
+            highContrast: localStorage.getItem('acc_highContrast') === 'true', 
+            nightMode: localStorage.getItem('acc_nightMode') === 'true',
+            grayscale: localStorage.getItem('acc_grayscale') === 'true', 
+            lowSaturation: localStorage.getItem('acc_lowSaturation') === 'true',
+            dyslexic: localStorage.getItem('acc_dyslexic') === 'true', 
+            highlightLinks: localStorage.getItem('acc_highlightLinks') === 'true',
+            bigCursor: localStorage.getItem('acc_bigCursor') === 'true',
+            readingGuide: localStorage.getItem('acc_readingGuide') === 'true',
+            hideImages: localStorage.getItem('acc_hideImages') === 'true',
+            stopAnimations: localStorage.getItem('acc_stopAnimations') === 'true',
+            keyboardNav: localStorage.getItem('acc_keyboardNav') === 'true',
+            readAloud: false,
+            speech: null,
+            
+            init() {
+                this.applyAll();
+                this.speech = window.speechSynthesis;
+            },
+            
+            applyAll() {
+                document.documentElement.style.fontSize = this.fontSize + '%';
+                document.documentElement.style.letterSpacing = this.textSpacing + 'px';
+                document.documentElement.style.lineHeight = this.lineHeight;
+                
+                document.body.classList.toggle('high-contrast', this.highContrast);
+                document.body.classList.toggle('night-mode', this.nightMode);
+                document.body.classList.toggle('grayscale', this.grayscale);
+                document.body.classList.toggle('low-saturation', this.lowSaturation);
+                document.body.classList.toggle('dyslexic-font', this.dyslexic);
+                document.body.classList.toggle('highlight-links', this.highlightLinks);
+                document.body.classList.toggle('big-cursor', this.bigCursor);
+                document.body.classList.toggle('reading-guide-active', this.readingGuide);
+                document.body.classList.toggle('hide-images-active', this.hideImages);
+                document.body.classList.toggle('stop-animations-active', this.stopAnimations);
+                document.body.classList.toggle('keyboard-nav-active', this.keyboardNav);
+            },
+            
+            toggleReadAloud() {
+                this.readAloud = !this.readAloud;
+                if (!this.readAloud) {
+                    this.speech.cancel();
+                } else {
+                    this.speakText('Mode suara aktif. Klik pada teks untuk membaca.');
+                }
+            },
+
+            speakText(text) {
+                if (!this.speech) return;
+                this.speech.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                this.speech.speak(utterance);
+            },
+            
+            save(key, val) {
+                localStorage.setItem('acc_' + key, val);
+                this.applyAll();
+            },
+
+            reset() {
+                this.fontSize = 100; this.textSpacing = 0; this.lineHeight = 1.5;
+                this.highContrast = false; this.nightMode = false; this.grayscale = false; 
+                this.lowSaturation = false; this.dyslexic = false; this.highlightLinks = false; 
+                this.bigCursor = false; this.readingGuide = false; this.hideImages = false;
+                this.stopAnimations = false; this.keyboardNav = false;
+                this.readAloud = false;
+                if(this.speech) this.speech.cancel();
+                
+                Object.keys(localStorage).forEach(key => { if(key.startsWith('acc_')) localStorage.removeItem(key); });
+                this.applyAll();
+            },
+
+            get activeCount() {
+                let count = 0;
+                if(this.fontSize != 100) count++;
+                if(this.textSpacing != 0) count++;
+                if(this.lineHeight != 1.5) count++;
+                if(this.highContrast) count++;
+                if(this.nightMode) count++;
+                if(this.grayscale) count++;
+                if(this.lowSaturation) count++;
+                if(this.dyslexic) count++;
+                if(this.highlightLinks) count++;
+                if(this.bigCursor) count++;
+                if(this.readingGuide) count++;
+                if(this.hideImages) count++;
+                if(this.stopAnimations) count++;
+                if(this.keyboardNav) count++;
+                return count;
+            }
+        }" @mousedown="if(readAloud) { speakText($event.target.innerText || $event.target.alt || 'Elemen tanpa teks') }">
+        <!-- Main Button -->
+        <button @click="open = !open" 
+                class="fixed bottom-8 left-8 z-[100] bg-purple-700 text-white w-16 h-16 rounded-2xl shadow-2xl hover:scale-110 transition-all flex items-center justify-center btn-playful group"
+                style="box-shadow: 0 6px 0 0 #4C1D95;">
+            <i data-lucide="accessibility" class="w-10 h-10"></i>
+            <template x-if="activeCount > 0">
+                <span class="absolute -top-2 -right-2 bg-potads-yellow text-potads-blue w-7 h-7 rounded-full flex items-center justify-center font-black text-xs border-4 border-white shadow-lg animate-bounce" x-text="activeCount"></span>
+            </template>
+        </button>
+
+        <!-- Accessibility Menu -->        
+        <div x-show="open" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+             @click.away="open = false"
+             class="fixed bottom-28 left-8 z-[100] bg-white rounded-[2.5rem] shadow-[0_30px_100px_rgba(0,0,0,0.2)] border-4 border-white w-[340px] max-h-[70vh] overflow-y-auto custom-scrollbar p-8">
+            
+            <div class="flex items-center justify-between mb-8">
+                <h3 class="text-potads-blue font-black text-xl flex items-center gap-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center text-purple-700">
+                        <i data-lucide="eye" class="w-6 h-6"></i>
+                    </div>
+                    Asisten Aksesibilitas
+                </h3>
+                <button @click="open = false" class="text-slate-400 hover:text-red-500 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Group 0: Screen Reader -->
+                <div class="space-y-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pembaca Layar</p>
+                    <button @click="toggleReadAloud()" 
+                            :class="readAloud ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                            class="w-full p-4 rounded-2xl text-left transition-all flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="volume-2" class="w-6 h-6" :class="readAloud ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[10px] font-black uppercase">Baca Bersuara (Audio)</span>
+                        </div>
+                        <div class="w-10 h-6 rounded-full p-1 transition-colors" :class="readAloud ? 'bg-potads-yellow' : 'bg-slate-200'">
+                            <div class="bg-white w-4 h-4 rounded-full transition-transform" :class="readAloud ? 'translate-x-4' : 'translate-x-0'"></div>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Group 1: Text Adjustments -->
+                <div class="space-y-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Penyesuaian Teks</p>
+                    <div class="p-4 bg-slate-50 rounded-2xl flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-600">Ukuran Teks</span>
+                        <div class="flex items-center gap-3">
+                            <button @click="fontSize = Math.max(80, parseInt(fontSize) - 10); save('fontSize', fontSize)" class="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center font-black text-slate-500">-</button>
+                            <span class="text-sm font-black text-potads-blue w-10 text-center" x-text="fontSize + '%'"></span>
+                            <button @click="fontSize = Math.min(150, parseInt(fontSize) + 10); save('fontSize', fontSize)" class="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center font-black text-slate-500">+</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button @click="textSpacing = textSpacing == 0 ? 2 : 0; save('textSpacing', textSpacing)" 
+                                :class="textSpacing > 0 ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="stretch-horizontal" class="w-6 h-6 mb-2" :class="textSpacing > 0 ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Spasi Huruf</span>
+                        </button>
+                        <button @click="lineHeight = lineHeight == 1.5 ? 2 : 1.5; save('lineHeight', lineHeight)" 
+                                :class="lineHeight > 1.5 ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="align-justify" class="w-6 h-6 mb-2" :class="lineHeight > 1.5 ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Jarak Baris</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 2: Color & Vision -->
+                <div class="space-y-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Warna & Penglihatan</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button @click="highContrast = !highContrast; save('highContrast', highContrast)" 
+                                :class="highContrast ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="contrast" class="w-6 h-6 mb-2" :class="highContrast ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Kontras</span>
+                        </button>
+                        <button @click="nightMode = !nightMode; save('nightMode', nightMode)" 
+                                :class="nightMode ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="moon" class="w-6 h-6 mb-2" :class="nightMode ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Mode Malam</span>
+                        </button>
+                        <button @click="grayscale = !grayscale; save('grayscale', grayscale)" 
+                                :class="grayscale ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="palette" class="w-6 h-6 mb-2" :class="grayscale ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Monokrom</span>
+                        </button>
+                        <button @click="lowSaturation = !lowSaturation; save('lowSaturation', lowSaturation)" 
+                                :class="lowSaturation ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="sun-dim" class="w-6 h-6 mb-2" :class="lowSaturation ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Saturasi</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 3: Focus & Tools -->
+                <div class="space-y-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fokus & Alat Bantu</p>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button @click="readingGuide = !readingGuide; save('readingGuide', readingGuide)" 
+                                :class="readingGuide ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="navigation" class="w-6 h-6 mb-2" :class="readingGuide ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Garis Bantu</span>
+                        </button>
+                        <button @click="highlightLinks = !highlightLinks; save('highlightLinks', highlightLinks)" 
+                                :class="highlightLinks ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="link" class="w-6 h-6 mb-2" :class="highlightLinks ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Link Highlight</span>
+                        </button>
+                        <button @click="hideImages = !hideImages; save('hideImages', hideImages)" 
+                                :class="hideImages ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="image-off" class="w-6 h-6 mb-2" :class="hideImages ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Sembunyi Foto</span>
+                        </button>
+                        <button @click="stopAnimations = !stopAnimations; save('stopAnimations', stopAnimations)" 
+                                :class="stopAnimations ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
+                            <i data-lucide="video-off" class="w-6 h-6 mb-2" :class="stopAnimations ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[9px] font-black uppercase">Stop Animasi</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 4: Specialized -->
+                <div class="space-y-4">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Kebutuhan Khusus</p>
+                    <div class="space-y-3">
+                        <button @click="dyslexic = !dyslexic; save('dyslexic', dyslexic)" 
+                                :class="dyslexic ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="w-full p-4 rounded-2xl text-left transition-all flex items-center gap-4">
+                            <i data-lucide="type" class="w-6 h-6" :class="dyslexic ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[10px] font-black uppercase block">Font Disleksia</span>
+                        </button>
+                        <button @click="bigCursor = !bigCursor; save('bigCursor', bigCursor)" 
+                                :class="bigCursor ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="w-full p-4 rounded-2xl text-left transition-all flex items-center gap-4">
+                            <i data-lucide="mouse-pointer-2" class="w-6 h-6" :class="bigCursor ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[10px] font-black uppercase block">Kursor Besar</span>
+                        </button>
+                        <button @click="keyboardNav = !keyboardNav; save('keyboardNav', keyboardNav)" 
+                                :class="keyboardNav ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                class="w-full p-4 rounded-2xl text-left transition-all flex items-center gap-4">
+                            <i data-lucide="keyboard" class="w-6 h-6" :class="keyboardNav ? 'text-potads-yellow' : 'text-slate-400'"></i>
+                            <span class="text-[10px] font-black uppercase block">Navigasi Keyboard</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reset -->
+                <button @click="reset()"
+                        class="w-full py-5 text-red-500 font-black text-xs uppercase tracking-widest hover:bg-red-50 rounded-2xl transition-all border-2 border-dashed border-red-100 flex items-center justify-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Pengaturan
+                </button>
+            </div>
+        </div>
+        
+        <!-- Reading Guide Line Element -->
+        <div x-show="readingGuide" 
+             id="reading-guide-line" 
+             class="fixed left-0 right-0 h-1 bg-potads-yellow z-[9999] pointer-events-none shadow-[0_0_15px_rgba(255,193,7,0.5)]"
+             style="display: none;"></div>
+    </div>
+
+    <!-- Floating Social Media Sidebar (Left) -->
+    <div class="fixed left-0 top-1/2 -translate-y-1/2 z-[90] flex flex-col items-start">
+        @if($siteSettings['social_youtube'] ?? false)
+            <a href="{{ $siteSettings['social_youtube'] }}" target="_blank" 
+               class="w-14 h-14 bg-[#FF0000] text-white flex items-center justify-center hover:w-20 transition-all duration-300 group rounded-r-xl shadow-lg mb-0.5"
+               title="YouTube POTADS">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:scale-125 transition-transform"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.42a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.42 8.6.42 8.6.42s6.88 0 8.6-.42a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
+            </a>
+        @endif
+        @if($siteSettings['social_instagram'] ?? false)
+            <a href="{{ $siteSettings['social_instagram'] }}" target="_blank" 
+               class="w-14 h-14 bg-[#E1306C] text-white flex items-center justify-center hover:w-20 transition-all duration-300 group rounded-r-xl shadow-lg mb-0.5"
+               title="Instagram POTADS">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:scale-125 transition-transform"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+        @endif
+        @if($siteSettings['contact_phone'] ?? false)
+            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $siteSettings['contact_phone']) }}" target="_blank" 
+               class="w-14 h-14 bg-[#25D366] text-white flex items-center justify-center hover:w-20 transition-all duration-300 group rounded-r-xl shadow-lg"
+               title="WhatsApp POTADS">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="group-hover:scale-125 transition-transform"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.445 0 .01 5.437 0 12.045c0 2.112.552 4.171 1.597 5.978L0 24l6.152-1.613a11.82 11.82 0 005.895 1.565h.006c6.604 0 12.039-5.437 12.043-12.048a11.82 11.82 0 00-3.483-8.504z"/></svg>
+            </a>
+        @endif
+    </div>
+
+    <!-- Floating Action Buttons (Bottom Right) -->
+    <div class="fixed right-8 bottom-8 flex flex-col gap-4 z-[90]">
+        @if($siteSettings['social_facebook'] ?? false)
+            <a href="{{ $siteSettings['social_facebook'] }}" target="_blank" class="w-12 h-12 bg-white rounded-2xl shadow-xl flex items-center justify-center text-blue-600 hover:scale-110 transition-all border-2 border-white">
+                <i data-lucide="facebook" class="w-6 h-6"></i>
+            </a>
+        @endif
+    </div>
+
+    <style>
+        /* Accessibility Styles */
+        .high-contrast { background-color: #000 !important; color: #fff !important; }
+        .high-contrast section, .high-contrast div:not(.bg-white):not([class*='fixed']), .high-contrast nav, .high-contrast footer { background-color: #000 !important; border-color: #fff !important; color: #fff !important; }
+        .high-contrast a, .high-contrast h1, .high-contrast h2, .high-contrast h3, .high-contrast p { color: #ffff00 !important; }
+        .grayscale { filter: grayscale(100%) !important; }
+        .low-saturation { filter: saturate(0.3) !important; }
+        .dyslexic-font { font-family: 'OpenDyslexic', sans-serif !important; }
+        .highlight-links a { background-color: #ffff00 !important; color: #000 !important; outline: 2px solid #000 !important; text-decoration: underline !important; }
+        .big-cursor * { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z'%3E%3C/path%3E%3Cpath d='M13 13l6 6'%3E%3C/path%3E%3C/svg%3E"), auto !important; }
+        .reading-guide-active { cursor: crosshair; }
+        
+        .night-mode { background-color: #121212 !important; color: #e0e0e0 !important; }
+        .night-mode section, .night-mode div:not(.bg-white):not([class*='fixed']) { background-color: #1a1a1a !important; color: #e0e0e0 !important; }
+        .night-mode h1, .night-mode h2, .night-mode h3, .night-mode p { color: #ffffff !important; }
+        
+        .hide-images-active img { visibility: hidden !important; }
+        
+        .stop-animations-active * { 
+            animation: none !important; 
+            transition: none !important; 
+            scroll-behavior: auto !important; 
+        }
+
+        .keyboard-nav-active *:focus {
+            outline: 4px solid #FACC15 !important;
+            outline-offset: 4px !important;
+            box-shadow: 0 0 0 8px rgba(250, 204, 21, 0.3) !important;
+        }
+
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/OpenDyslexic-Regular.otf');
+        }
+
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #ccc; }
+    </style>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // Reading Guide Movement
+        document.addEventListener('mousemove', (e) => {
+            const line = document.getElementById('reading-guide-line');
+            if (line && line.style.display !== 'none') {
+                line.style.top = e.clientY + 'px';
+            }
+        });
+
         // Preloader
         window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
             document.body.classList.remove('loading');
-            preloader.style.opacity = '0';
-            preloader.style.visibility = 'hidden';
-            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            if(preloader) {
+                preloader.style.opacity = '0';
+                preloader.style.visibility = 'hidden';
+                setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            }
         });
 
         // Initialize AOS

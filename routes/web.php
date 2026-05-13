@@ -17,6 +17,7 @@ Route::get('/', function () {
 Route::get('/about', function () {
     return view('about-us');
 })->name('about');
+Route::post('/about', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/donations', [\App\Http\Controllers\DonationController::class, 'index'])->name('donations.index');
 Route::post('/donations', [\App\Http\Controllers\DonationController::class, 'store'])->name('donations.store');
@@ -30,6 +31,7 @@ Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name
 // Public Material Routes
 Route::get('/materi', [\App\Http\Controllers\MaterialController::class, 'index'])->name('materials.index');
 Route::get('/materi/{material}', [\App\Http\Controllers\MaterialController::class, 'show'])->name('materials.show');
+Route::post('/materi/{material}/complete', [\App\Http\Controllers\MaterialController::class, 'complete'])->name('materials.complete')->middleware('auth');
 
 // Public FAQ Routes
 Route::get('/faq', [\App\Http\Controllers\FaqController::class, 'index'])->name('faqs.index');
@@ -59,14 +61,19 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
     Route::resource('faqs', \App\Http\Controllers\Admin\FaqController::class);
     Route::resource('medical-infos', \App\Http\Controllers\Admin\MedicalInfoController::class);
+    Route::resource('donations', \App\Http\Controllers\Admin\DonationController::class);
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/settings', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // Child Routes
+    Route::resource('children', \App\Http\Controllers\ChildController::class)->except(['index', 'show']);
 });
 
 require __DIR__.'/auth.php';

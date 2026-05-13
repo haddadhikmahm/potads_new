@@ -1,21 +1,22 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Materi Baru')
+@section('title', 'Edit Materi')
 
-@section('header_title', 'Materi Baru')
-@section('header_breadcrumb', 'Add New Material')
+@section('header_title', 'Edit Materi')
+@section('header_breadcrumb', 'Edit Existing Material')
 
 @section('content')
 <div class="max-w-4xl">
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 md:p-12">
-        <form action="{{ route('admin.materials.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <form action="{{ route('admin.materials.update', $material) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
+            @method('PUT')
 
             <div class="space-y-6">
                 <!-- Title -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Judul Materi</label>
-                    <input type="text" name="title" value="{{ old('title') }}" required
+                    <input type="text" name="title" value="{{ old('title', $material->title) }}" required
                         class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('title') ring-2 ring-red-500/20 @enderror"
                         placeholder="Masukkan judul materi...">
                     @error('title') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
@@ -26,13 +27,18 @@
                     <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Deskripsi</label>
                     <textarea name="description" rows="4"
                         class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('description') ring-2 ring-red-500/20 @enderror"
-                        placeholder="Tuliskan deskripsi singkat materi...">{{ old('description') }}</textarea>
+                        placeholder="Tuliskan deskripsi singkat materi...">{{ old('description', $material->description) }}</textarea>
                     @error('description') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Image (Thumbnail) -->
                 <div class="space-y-2">
                     <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Gambar Sampul (Opsional)</label>
+                    @if($material->image)
+                        <div class="mb-4 w-48 h-24 rounded-xl overflow-hidden border border-slate-100">
+                            <img src="{{ asset('storage/' . $material->image) }}" class="w-full h-full object-cover">
+                        </div>
+                    @endif
                     <input type="file" name="image"
                         class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-potads-blue/10 file:text-potads-blue hover:file:bg-potads-blue/20">
                     @error('image') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
@@ -40,7 +46,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Type Selection -->
-                    <div class="space-y-2" x-data="{ type: '{{ old('type', 'video') }}' }">
+                    <div class="space-y-2" x-data="{ type: '{{ old('type', $material->type) }}' }">
                         <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Tipe Materi</label>
                         <select name="type" x-model="type" required
                             class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('type') ring-2 ring-red-500/20 @enderror">
@@ -54,7 +60,7 @@
                             <template x-if="type === 'video'">
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">URL Video (YouTube/Vimeo)</label>
-                                    <input type="url" name="url" value="{{ old('url') }}"
+                                    <input type="url" name="url" value="{{ old('url', $material->url) }}"
                                         class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
                                         placeholder="https://youtube.com/watch?v=...">
                                 </div>
@@ -62,6 +68,9 @@
                             <template x-if="type === 'file'">
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">Upload File (PDF/Doc/Zip)</label>
+                                    @if($material->file_path)
+                                        <p class="text-[10px] text-potads-blue font-bold mb-2">File saat ini: {{ basename($material->file_path) }}</p>
+                                    @endif
                                     <input type="file" name="file"
                                         class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-potads-blue/10 file:text-potads-blue hover:file:bg-potads-blue/20">
                                 </div>
@@ -72,7 +81,7 @@
                     <!-- Category -->
                     <div class="space-y-2">
                         <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Kategori</label>
-                        <input type="text" name="category" value="{{ old('category') }}"
+                        <input type="text" name="category" value="{{ old('category', $material->category) }}"
                             class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
                             placeholder="Contoh: Seminar, Latihan, Artikel">
                     </div>
@@ -81,13 +90,13 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Urutan (Step)</label>
-                            <input type="number" name="sort_order" value="{{ old('sort_order', 1) }}" required
+                            <input type="number" name="sort_order" value="{{ old('sort_order', $material->sort_order) }}" required
                                 class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
                                 placeholder="1, 2...">
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Level</label>
-                            <input type="number" name="level" value="{{ old('level', 1) }}" required
+                            <input type="number" name="level" value="{{ old('level', $material->level) }}" required
                                 class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
                                 placeholder="Level 1, 2...">
                         </div>
@@ -96,7 +105,7 @@
 
                 <!-- Quiz Manager -->
                 <div class="pt-8 border-t border-slate-100" x-data="{ 
-                    questions: {{ json_encode(old('quiz_data', [])) }},
+                    questions: {{ json_encode(old('quiz_data', $material->quiz_data ?? [])) }},
                     addQuestion() {
                         this.questions.push({
                             question: '',
@@ -162,7 +171,7 @@
 
             <div class="flex items-center gap-4 pt-6">
                 <button type="submit" class="px-10 py-4 bg-potads-blue text-white rounded-2xl font-bold shadow-lg shadow-blue-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
-                    Simpan Materi
+                    Update Materi
                 </button>
                 <a href="{{ route('admin.materials.index') }}" class="px-10 py-4 bg-white border-2 border-slate-100 text-slate-500 rounded-2xl font-bold hover:bg-slate-50 transition-all">
                     Batal

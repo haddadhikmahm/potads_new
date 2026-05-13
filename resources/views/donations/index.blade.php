@@ -121,11 +121,19 @@
                     <h3 class="font-bold text-gray-900">Bukti Tf (screenshot)</h3>
                 </div>
 
-                <div class="border-2 border-dashed border-gray-300 rounded-2xl p-10 text-center hover:bg-gray-50 transition-colors cursor-pointer relative overflow-hidden">
-                    <input type="file" name="proof_image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*,application/pdf">
-                    <i data-lucide="image" class="w-8 h-8 mx-auto text-gray-400 mb-3"></i>
-                    <p class="text-sm text-gray-600 mb-1">Klik atau seret gambar bukti transfer di sini</p>
-                    <p class="text-[10px] text-gray-400">Format JPG, PNG atau PDF (Maks. 5MB)</p>
+                <div id="image-preview-container" class="border-2 border-dashed border-gray-300 rounded-2xl p-4 text-center hover:bg-gray-50 transition-colors cursor-pointer relative overflow-hidden min-h-[200px] flex flex-col items-center justify-center">
+                    <input type="file" name="proof_image" id="proof_image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" accept="image/*,application/pdf" onchange="previewImage(this)">
+                    
+                    <div id="preview-placeholder">
+                        <i data-lucide="image" class="w-8 h-8 mx-auto text-gray-400 mb-3"></i>
+                        <p class="text-sm text-gray-600 mb-1">Klik atau seret gambar bukti transfer di sini</p>
+                        <p class="text-[10px] text-gray-400">Format JPG, PNG atau PDF (Maks. 5MB)</p>
+                    </div>
+
+                    <div id="preview-display" class="hidden w-full">
+                        <img id="preview-img" src="#" alt="Preview" class="max-h-64 mx-auto rounded-lg mb-3 shadow-sm">
+                        <p class="text-xs text-potads-blue font-bold">Gambar dipilih. Klik untuk mengganti.</p>
+                    </div>
                 </div>
             </div>
 
@@ -163,6 +171,31 @@
 <script>
     function setAmount(value) {
         document.getElementById('amount').value = value;
+    }
+
+    function previewImage(input) {
+        const placeholder = document.getElementById('preview-placeholder');
+        const display = document.getElementById('preview-display');
+        const previewImg = document.getElementById('preview-img');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                if (input.files[0].type === 'application/pdf') {
+                    // For PDF, we can't easily preview the content in an <img> tag
+                    // but we can show a PDF icon or just the filename
+                    previewImg.src = 'https://cdn-icons-png.flaticon.com/512/337/337946.png'; // Placeholder PDF icon
+                } else {
+                    previewImg.src = e.target.result;
+                }
+                
+                placeholder.classList.add('hidden');
+                display.classList.remove('hidden');
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 </script>
 @endsection

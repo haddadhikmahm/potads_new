@@ -11,7 +11,7 @@ class MaterialController extends Controller
 {
     public function index()
     {
-        $materials = Material::latest()->paginate(10);
+        $materials = Material::orderBy('level')->orderBy('sort_order')->paginate(10);
         return view('admin.materials.index', compact('materials'));
     }
 
@@ -30,6 +30,9 @@ class MaterialController extends Controller
             'file' => 'required_if:type,file|nullable|file|max:20480', // 20MB max
             'category' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
+            'sort_order' => 'required|integer',
+            'level' => 'required|integer|min:1',
+            'quiz_data' => 'nullable|array',
         ]);
 
         $data = $validated;
@@ -63,6 +66,9 @@ class MaterialController extends Controller
             'file' => 'nullable|file|max:20480',
             'category' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
+            'sort_order' => 'required|integer',
+            'level' => 'required|integer|min:1',
+            'quiz_data' => 'nullable|array',
         ]);
 
         $data = $validated;

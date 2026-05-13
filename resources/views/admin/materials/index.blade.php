@@ -18,6 +18,8 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-slate-50/50">
+                    <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider w-20">Step</th>
+                    <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider w-20">Level</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Judul Materi</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Tipe</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Kategori</th>
@@ -28,6 +30,14 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($materials as $material)
                 <tr class="hover:bg-slate-50/50 transition-colors group">
+                    <td class="px-8 py-5">
+                        <span class="w-10 h-10 rounded-full bg-potads-blue text-white flex items-center justify-center font-black text-xs shadow-sm">
+                            {{ $material->sort_order }}
+                        </span>
+                    </td>
+                    <td class="px-8 py-5">
+                        <span class="text-sm font-bold text-slate-700">LVL {{ $material->level }}</span>
+                    </td>
                     <td class="px-8 py-5">
                         <div>
                             <p class="text-sm font-bold text-slate-900 group-hover:text-potads-blue transition-colors">{{ $material->title }}</p>
@@ -68,7 +78,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-8 py-12 text-center">
+                    <td colspan="7" class="px-8 py-12 text-center">
                         <div class="flex flex-col items-center gap-3 text-slate-400">
                             <i data-lucide="play-circle" class="w-12 h-12 opacity-20"></i>
                             <p class="text-sm font-medium">Belum ada materi yang ditambahkan.</p>

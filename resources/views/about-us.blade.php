@@ -325,4 +325,104 @@
             </div>
         </div>
     </section>
+
+    <!-- Hubungi Kami (Contact Section) -->
+    <section class="px-6 md:px-12 py-20 md:py-32 bg-transparent" id="contact" data-aos="fade-up">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row border-4 border-white">
+                <!-- Contact Info & Map -->
+                <div class="w-full lg:w-1/2 bg-potads-blue p-8 md:p-16 text-white relative">
+                    <div class="relative z-10">
+                        <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight">Hubungi Kami</h2>
+                        <p class="text-white/70 text-lg mb-12">Kami senang mendengar dari Anda. Silakan hubungi kami melalui saluran berikut atau kirimkan pesan langsung.</p>
+
+                        <div class="space-y-8 mb-12">
+                            <div class="flex gap-6 items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-potads-yellow uppercase text-xs tracking-widest mb-2">ALAMAT</h4>
+                                    <p class="text-base md:text-lg">{{ $siteSettings['contact_address'] ?? 'Bandung, Jawa Barat' }}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6 items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                                    <i data-lucide="phone" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-potads-yellow uppercase text-xs tracking-widest mb-2">TELEPON</h4>
+                                    <p class="text-base md:text-lg">{{ $siteSettings['contact_phone'] ?? '+62 812-3456-7890' }}</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-6 items-start">
+                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                                    <i data-lucide="mail" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-potads-yellow uppercase text-xs tracking-widest mb-2">EMAIL</h4>
+                                    <p class="text-base md:text-lg">{{ $siteSettings['contact_email'] ?? 'info@potads-jabar.or.id' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map Placeholder/Embed -->
+                        <div class="rounded-3xl overflow-hidden h-64 md:h-80 shadow-2xl bg-white/5 border border-white/10">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.56347862248!2d107.5731164!3d-6.9034443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6398252477f%3A0x146a9440548d5a71!2sBandung%2C%20Bandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" 
+                                class="w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 transition-all duration-500" 
+                                allowfullscreen="" 
+                                loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                    <!-- Decorative circle -->
+                    <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="w-full lg:w-1/2 p-8 md:p-16 bg-white">
+                    <h3 class="text-2xl md:text-3xl font-black text-potads-blue mb-10">Kirim Pesan</h3>
+
+                    @if(session('success'))
+                        <div class="bg-emerald-50 border-2 border-emerald-100 p-6 rounded-3xl mb-8 flex items-center gap-4 animate-bounce">
+                            <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white shrink-0">
+                                <i data-lucide="check" class="w-6 h-6"></i>
+                            </div>
+                            <p class="text-emerald-800 font-bold text-sm">{{ session('success') }}</p>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                        @csrf
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-potads-blue uppercase tracking-widest ml-1">Nama Lengkap</label>
+                                <input type="text" name="name" value="{{ old('name') }}" required class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-potads-blue/5 transition-all text-slate-700 font-bold" placeholder="Nama Anda...">
+                                @error('name') <p class="text-red-500 text-[10px] mt-1 ml-1">{{ $message }}</p> @enderror
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-potads-blue uppercase tracking-widest ml-1">Email</label>
+                                <input type="email" name="email" value="{{ old('email') }}" required class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-potads-blue/5 transition-all text-slate-700 font-bold" placeholder="email@contoh.com">
+                                @error('email') <p class="text-red-500 text-[10px] mt-1 ml-1">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-potads-blue uppercase tracking-widest ml-1">Subjek</label>
+                            <input type="text" name="subject" value="{{ old('subject') }}" required class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-potads-blue/5 transition-all text-slate-700 font-bold" placeholder="Ada yang bisa kami bantu?">
+                            @error('subject') <p class="text-red-500 text-[10px] mt-1 ml-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-potads-blue uppercase tracking-widest ml-1">Pesan</label>
+                            <textarea name="message" rows="5" required class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-4 focus:ring-potads-blue/5 transition-all text-slate-700 font-bold" placeholder="Tuliskan pesan Anda di sini...">{{ old('message') }}</textarea>
+                            @error('message') <p class="text-red-500 text-[10px] mt-1 ml-1">{{ $message }}</p> @enderror
+                        </div>
+                        <button type="submit" class="w-full bg-potads-yellow text-potads-blue font-black py-5 rounded-3xl text-lg hover:bg-yellow-400 transition-all btn-playful shadow-xl shadow-yellow-200 flex items-center justify-center gap-3">
+                            Kirim Pesan <i data-lucide="send" class="w-6 h-6"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

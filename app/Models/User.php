@@ -29,4 +29,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function completedMaterials()
+    {
+        return $this->belongsToMany(Material::class, 'user_material_progress', 'user_id', 'material_id')
+                    ->withPivot('completed_at')
+                    ->withTimestamps();
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Child::class);
+    }
 }

@@ -3,82 +3,106 @@
 @section('title', 'PIK POTADS - File Materi Orang Tua')
 
 @section('content')
-<div class="bg-transparent min-h-screen py-16 px-6 md:px-12 lg:px-16 pt-24 md:pt-32">
-    <div class="max-w-[1850px] mx-auto">
-        <!-- Header & Search -->
-        <div class="flex flex-col lg:flex-row justify-between items-center mb-16 gap-8 border-b border-gray-100 pb-12" data-aos="fade-up">
-            <h1 class="text-4xl font-black text-potads-blue">File Materi Orang Tua</h1>
-            
-            <form action="{{ route('materials.index') }}" method="GET" class="w-full lg:w-auto relative flex items-center gap-3">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search......." class="pl-8 pr-12 py-4 rounded-full border-2 border-potads-blue/10 bg-white focus:outline-none focus:border-potads-blue w-full lg:w-96 shadow-sm text-base">
-                <button type="submit" class="bg-potads-blue text-white px-10 py-4 rounded-full text-sm font-black hover:bg-blue-900 transition-all btn-playful">
-                    Cari
-                </button>
-            </form>
+<div class="bg-[#F8F9FB] min-h-screen py-16 px-6 md:px-12 lg:px-16 pt-24 md:pt-32">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-20" data-aos="fade-up">
+            <span class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4 block">Learning Roadmap</span>
+            <h1 class="text-5xl font-black text-potads-blue mb-6">Materi Edukasi Orang Tua</h1>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg">Selesaikan setiap tahapan materi untuk membuka wawasan baru dalam mendampingi buah hati tercinta.</p>
         </div>
 
-        <!-- Materials Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20" id="materialsGrid" data-aos="fade-up">
-            @forelse($materials as $index => $material)
-                <div class="bg-white rounded-[2.5rem] overflow-hidden shadow-xl border-4 border-white hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full material-card {{ $index >= 6 ? 'hidden' : '' }}">
+        <!-- Roadmap Path -->
+        <div class="relative">
+            <!-- Connector Line -->
+            <div class="absolute left-1/2 top-0 bottom-0 w-1.5 bg-gray-200 -translate-x-1/2 hidden md:block rounded-full"></div>
+
+            <div class="space-y-12 relative z-10">
+                @forelse($materials as $index => $material)
                     @php
-                        $imgSrc = $material->image ? asset('storage/' . $material->image) : 'https://images.unsplash.com/photo-1529390079861-591de354faf5?q=80&w=2070&auto=format&fit=crop';
+                        $isCompleted = in_array($material->id, $completedMaterialIds);
+                        $isLocked = !auth()->check() ? ($index > 0) : (!$isCompleted && $material->id !== $nextToComplete);
+                        $isInProgress = $material->id === $nextToComplete;
+                        
+                        // Default to unlocked for guests for the first item
+                        if (!auth()->check() && $index === 0) $isLocked = false;
+                        
+                        $alignment = $index % 2 == 0 ? 'md:flex-row' : 'md:flex-row-reverse';
+                        $textAlign = $index % 2 == 0 ? 'md:text-right' : 'md:text-left';
                     @endphp
-                    <div class="p-5">
-                        <div class="rounded-[2rem] overflow-hidden h-64">
-                            <img src="{{ $imgSrc }}" alt="{{ $material->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+
+                    <div class="flex flex-col md:flex-row items-center gap-8 md:gap-0 {{ $alignment }}" data-aos="{{ $index % 2 == 0 ? 'fade-right' : 'fade-left' }}">
+                        <!-- Content Card -->
+                        <div class="w-full md:w-[42%]">
+                            <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border-4 transition-all duration-500 
+                                {{ $isCompleted ? 'border-emerald-100 opacity-90' : '' }}
+                                {{ $isInProgress ? 'border-potads-yellow scale-105 shadow-yellow-200' : '' }}
+                                {{ $isLocked ? 'border-gray-100 opacity-60 grayscale' : '' }}">
+                                
+                                <div class="flex items-center gap-3 mb-4 {{ $index % 2 == 0 ? 'md:justify-end' : '' }}">
+                                    @if($isCompleted)
+                                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Selesai</span>
+                                    @elseif($isInProgress)
+                                        <span class="bg-amber-50 text-amber-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Sedang Dipelajari</span>
+                                    @else
+                                        <span class="bg-gray-100 text-gray-500 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Terkunci</span>
+                                    @endif
+                                </div>
+
+                                <h3 class="text-2xl font-black text-potads-blue mb-4 leading-tight">{{ $material->title }}</h3>
+                                <p class="text-gray-400 text-sm mb-6 line-clamp-2">{{ $material->description }}</p>
+                                
+                                <div class="flex {{ $index % 2 == 0 ? 'md:justify-end' : '' }}">
+                                    @if($isLocked)
+                                        <button disabled class="bg-gray-200 text-gray-400 font-black px-8 py-3 rounded-full text-xs flex items-center gap-2 cursor-not-allowed">
+                                            <i data-lucide="lock" class="w-3.5 h-3.5"></i> Terkunci
+                                        </button>
+                                    @else
+                                        <a href="{{ route('materials.show', $material->id) }}" class="bg-potads-blue text-white font-black px-8 py-3 rounded-full text-xs hover:bg-blue-900 transition-all btn-playful flex items-center gap-2">
+                                            Mulai Belajar <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="px-10 pb-10 flex flex-col flex-grow">
-                        <h3 class="text-2xl font-black text-potads-blue mb-4 line-clamp-2 leading-tight">
-                            {{ $material->title }}
-                        </h3>
-                        <p class="text-gray-400 text-base mb-8 line-clamp-3 leading-relaxed">
-                            {{ $material->description }}
-                        </p>
-                        <div class="mt-auto flex justify-between items-center border-t border-gray-50 pt-8">
-                            <span class="text-[10px] text-blue-400 font-black uppercase tracking-widest flex items-center gap-2">
-                                <i data-lucide="book-open" class="w-3.5 h-3.5"></i> MATERI EDUKASI
-                            </span>
-                            <a href="{{ route('materials.show', $material->id) }}" class="bg-pastel-blue text-potads-blue font-black px-6 py-2.5 rounded-full text-sm btn-playful">
-                                Lihat Detail
-                            </a>
+
+                        <!-- Step Indicator -->
+                        <div class="w-20 h-20 rounded-full border-8 border-[#F8F9FB] flex items-center justify-center z-20 relative mx-auto
+                            {{ $isCompleted ? 'bg-emerald-500' : '' }}
+                            {{ $isInProgress ? 'bg-potads-yellow' : '' }}
+                            {{ $isLocked ? 'bg-gray-300' : '' }}">
+                            
+                            @if($isCompleted)
+                                <i data-lucide="check" class="w-8 h-8 text-white"></i>
+                            @elseif($isLocked)
+                                <i data-lucide="lock" class="w-6 h-6 text-white opacity-50"></i>
+                            @else
+                                <span class="text-2xl font-black {{ $isInProgress ? 'text-potads-blue' : 'text-white' }}">{{ $index + 1 }}</span>
+                            @endif
                         </div>
+
+                        <!-- Spacer for Grid alignment -->
+                        <div class="hidden md:block w-[42%]"></div>
                     </div>
-                </div>
-            @empty
-                <div class="col-span-full py-32 text-center bg-gray-50 rounded-[4rem] border-2 border-dashed border-gray-200">
-                    <i data-lucide="folder-open" class="w-16 h-16 mx-auto mb-6 text-gray-300"></i>
-                    <p class="text-gray-400 text-xl font-medium">Materi belum tersedia saat ini.</p>
-                </div>
-            @endforelse
+                @empty
+                    <div class="py-32 text-center bg-white rounded-[4rem] border-4 border-dashed border-gray-100">
+                        <i data-lucide="folder-open" class="w-16 h-16 mx-auto mb-6 text-gray-300"></i>
+                        <p class="text-gray-400 text-xl font-black">Materi belum tersedia.</p>
+                    </div>
+                @endforelse
+            </div>
         </div>
 
-        <!-- Load More -->
-        @if($materials->count() > 6)
-            <div class="flex justify-center mt-20" id="loadMoreContainer">
-                <button type="button" onclick="showAllCards()" class="w-full max-w-2xl bg-white border-4 border-potads-yellow py-6 rounded-full flex items-center justify-center gap-4 text-potads-blue font-black text-lg hover:bg-potads-yellow transition-all duration-300 group shadow-sm btn-playful">
-                    Muat Lebih Banyak <i data-lucide="chevron-down" class="w-6 h-6 text-potads-blue"></i>
-                </button>
+        @if(!auth()->check())
+            <div class="mt-20 bg-white p-10 rounded-[3rem] text-center shadow-xl border-4 border-potads-blue/5">
+                <h4 class="text-2xl font-black text-potads-blue mb-4">Ingin menyimpan progres belajar Anda?</h4>
+                <p class="text-gray-500 mb-8">Daftar atau masuk sebagai Member POTADS untuk membuka semua materi dan melacak tahapan belajar Anda.</p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="{{ route('login') }}" class="bg-potads-blue text-white font-black px-12 py-4 rounded-full text-sm btn-playful">Masuk Sekarang</a>
+                    <a href="{{ route('register') }}" class="border-4 border-potads-blue text-potads-blue font-black px-12 py-4 rounded-full text-sm btn-playful">Daftar Member</a>
+                </div>
             </div>
         @endif
-        
-        <script>
-            function showAllCards() {
-                const cards = document.querySelectorAll('.material-card.hidden');
-                cards.forEach(card => {
-                    card.classList.remove('hidden');
-                    // Add some animation
-                    card.style.opacity = '0';
-                    setTimeout(() => {
-                        card.style.transition = 'opacity 0.5s ease-in-out';
-                        card.style.opacity = '1';
-                    }, 10);
-                });
-                // Sembunyikan tombol setelah diklik
-                document.getElementById('loadMoreContainer').style.display = 'none';
-            }
-        </script>
     </div>
 </div>
 @endsection
