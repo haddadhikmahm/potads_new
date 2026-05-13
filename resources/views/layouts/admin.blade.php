@@ -192,6 +192,7 @@
                         ['route' => 'admin.medical-infos.index', 'label' => 'Info Akademis & Medis', 'icon' => 'activity'],
                         ['route' => 'admin.faqs.index', 'label' => 'FAQ', 'icon' => 'help-circle'],
                         ['route' => 'admin.members.index', 'label' => 'Member', 'icon' => 'users'],
+                        ['route' => 'admin.children.index', 'label' => 'Data Anak', 'icon' => 'smile'],
                         ['route' => 'admin.donations.index', 'label' => 'Donasi', 'icon' => 'heart'],
                         ['route' => 'admin.settings.index', 'label' => 'Site Settings', 'icon' => 'settings'],
                     ];

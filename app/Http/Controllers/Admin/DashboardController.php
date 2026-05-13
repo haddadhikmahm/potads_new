@@ -11,6 +11,7 @@ class DashboardController extends Controller
     {
         $stats = [
             'users_count' => \App\Models\User::count(),
+            'children_count' => \App\Models\Child::count(),
             'events_count' => \App\Models\Event::count(),
             'articles_count' => \App\Models\Article::count(),
             'donations_total' => \App\Models\Donation::where('payment_status', 'success')->sum('amount'),

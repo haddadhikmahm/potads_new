@@ -6,10 +6,11 @@
 @section('header_breadcrumb', 'GENERAL OVERVIEW')
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
     @php
         $cards = [
             ['label' => 'Total Pengguna', 'value' => $stats['users_count'], 'icon' => 'users', 'color' => 'blue'],
+            ['label' => 'Total Anak', 'value' => $stats['children_count'], 'icon' => 'smile', 'color' => 'purple'],
             ['label' => 'Total Event', 'value' => $stats['events_count'], 'icon' => 'calendar', 'color' => 'yellow'],
             ['label' => 'Total Artikel', 'value' => $stats['articles_count'], 'icon' => 'file-text', 'color' => 'green'],
             ['label' => 'Donasi Terkumpul', 'value' => 'Rp ' . number_format($stats['donations_total'], 0, ',', '.'), 'icon' => 'heart', 'color' => 'red'],
@@ -20,6 +21,7 @@
     <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-50 flex items-center gap-5">
         <div class="w-14 h-14 rounded-2xl flex items-center justify-center 
             {{ $card['color'] === 'blue' ? 'bg-blue-50 text-blue-600' : '' }}
+            {{ $card['color'] === 'purple' ? 'bg-purple-50 text-purple-600' : '' }}
             {{ $card['color'] === 'yellow' ? 'bg-yellow-50 text-yellow-600' : '' }}
             {{ $card['color'] === 'green' ? 'bg-emerald-50 text-emerald-600' : '' }}
             {{ $card['color'] === 'red' ? 'bg-rose-50 text-rose-600' : '' }}">

@@ -545,14 +545,7 @@
         @endif
     </div>
 
-    <!-- Floating Action Buttons (Bottom Right) -->
-    <div class="fixed right-8 bottom-8 flex flex-col gap-4 z-[90]">
-        @if($siteSettings['social_facebook'] ?? false)
-            <a href="{{ $siteSettings['social_facebook'] }}" target="_blank" class="w-12 h-12 bg-white rounded-2xl shadow-xl flex items-center justify-center text-blue-600 hover:scale-110 transition-all border-2 border-white">
-                <i data-lucide="facebook" class="w-6 h-6"></i>
-            </a>
-        @endif
-    </div>
+
 
     <style>
         /* Accessibility Styles */

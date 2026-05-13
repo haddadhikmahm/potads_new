@@ -58,6 +58,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [\App\Http\Controllers\Admin\ProfileController::class, 'update'])->name('profile.update');
     Route::resource('members', \App\Http\Controllers\Admin\MemberController::class);
+    Route::resource('children', \App\Http\Controllers\Admin\ChildController::class);
     Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
     Route::resource('faqs', \App\Http\Controllers\Admin\FaqController::class);
     Route::resource('medical-infos', \App\Http\Controllers\Admin\MedicalInfoController::class);
