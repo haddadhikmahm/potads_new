@@ -18,10 +18,17 @@ class ChildController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'gender' => 'required|in:L,P',
-            'school' => 'nullable|string|max:255',
-            'hobby' => 'nullable|string|max:255',
-            'medical_notes' => 'nullable|string',
+            'gender' => 'required|string',
+            'address' => 'nullable|string',
+            'special_needs' => 'nullable|string',
+            'parent_name' => 'nullable|string|max:255',
+            'parent_phone' => 'nullable|string|max:20',
+            'parent_job' => 'nullable|string|max:255',
+            'parent_address' => 'nullable|string',
+            'school_status' => 'nullable|string|max:255',
+            'school_type' => 'nullable|string|max:255',
+            'therapies' => 'nullable|string',
+            'development_notes' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
         ]);
 
@@ -29,7 +36,7 @@ class ChildController extends Controller
         $data['user_id'] = auth()->id();
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('children', 'public');
+            $data['photo'] = $request->file('photo')->store('children/photos', 'public');
         }
 
         Child::create($data);
@@ -50,10 +57,17 @@ class ChildController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'gender' => 'required|in:L,P',
-            'school' => 'nullable|string|max:255',
-            'hobby' => 'nullable|string|max:255',
-            'medical_notes' => 'nullable|string',
+            'gender' => 'required|string',
+            'address' => 'nullable|string',
+            'special_needs' => 'nullable|string',
+            'parent_name' => 'nullable|string|max:255',
+            'parent_phone' => 'nullable|string|max:20',
+            'parent_job' => 'nullable|string|max:255',
+            'parent_address' => 'nullable|string',
+            'school_status' => 'nullable|string|max:255',
+            'school_type' => 'nullable|string|max:255',
+            'therapies' => 'nullable|string',
+            'development_notes' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
         ]);
 
@@ -63,7 +77,7 @@ class ChildController extends Controller
             if ($child->photo) {
                 Storage::disk('public')->delete($child->photo);
             }
-            $data['photo'] = $request->file('photo')->store('children', 'public');
+            $data['photo'] = $request->file('photo')->store('children/photos', 'public');
         }
 
         $child->update($data);
