@@ -33,9 +33,10 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        // Simple store for now, matching the Admin version but maybe with different validation or status
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'category' => 'nullable|string|max:255',
+            'status' => 'required|in:draft,published',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -46,10 +47,50 @@ class ArticleController extends Controller
 
         $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']) . '-' . rand(1000, 9999);
         $validated['author_id'] = auth()->id();
-        $validated['status'] = 'draft'; // Public submissions stay as draft
 
         Article::create($validated);
 
-        return redirect()->route('articles.index')->with('success', 'Artikel berhasil dikirim dan menunggu moderasi.');
+        return redirect()->route('articles.index')->with('success', 'Artikel berhasil disimpan.');
+    }
+
+    public function edit(Article $article)
+    {
+        abort_if($article->author_id !== auth()->id(), 403);
+        
+        return view('articles.edit', compact('article'));
+    }
+
+    public function update(Request $request, Article $article)
+    {
+        abort_if($article->author_id !== auth()->id(), 403);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'category' => 'nullable|string|max:255',
+            'status' => 'required|in:draft,published',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('articles', 'public');
+        }
+
+        if ($article->title !== $validated['title']) {
+            $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']) . '-' . rand(1000, 9999);
+        }
+
+        $article->update($validated);
+
+        return redirect()->route('profile')->with('success', 'Artikel berhasil diperbarui.');
+    }
+
+    public function destroy(Article $article)
+    {
+        abort_if($article->author_id !== auth()->id(), 403);
+
+        $article->delete();
+
+        return redirect()->route('profile')->with('success', 'Artikel berhasil dihapus.');
     }
 }

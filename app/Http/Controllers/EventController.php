@@ -17,4 +17,19 @@ class EventController extends Controller
     {
         return view('events.show', compact('event'));
     }
+
+    public function register(Request $request, Event $event)
+    {
+        $user = auth()->user();
+        
+        if ($user->events()->where('event_id', $event->id)->exists()) {
+            // Already registered, so we unregister
+            $user->events()->detach($event->id);
+            return back()->with('success', 'Berhasil membatalkan pendaftaran event.');
+        } else {
+            // Register
+            $user->events()->attach($event->id, ['status' => 'registered']);
+            return back()->with('success', 'Berhasil mendaftar event.');
+        }
+    }
 }

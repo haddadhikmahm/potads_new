@@ -16,8 +16,14 @@ class ProfileController extends Controller
      */
     public function index(Request $request): View
     {
+        $upcomingEvents = \App\Models\Event::where('status', 'upcoming')
+            ->orWhereDate('event_date', '>=', now())
+            ->orderBy('event_date', 'asc')
+            ->get();
+            
         return view('profile.index', [
             'user' => $request->user(),
+            'upcomingEvents' => $upcomingEvents,
         ]);
     }
 

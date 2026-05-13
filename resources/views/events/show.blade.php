@@ -63,6 +63,16 @@
                                 <p class="text-lg font-bold text-potads-blue">{{ \Carbon\Carbon::parse($event->date)->isPast() ? 'Selesai' : 'Mendatang' }}</p>
                             </div>
                         </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="bg-green-50 p-3 rounded-2xl">
+                                <i data-lucide="users" class="w-6 h-6 text-green-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Pendaftar</p>
+                                <p class="text-lg font-bold text-gray-800">{{ $event->attendees()->count() }} Orang</p>
+                            </div>
+                        </div>
                     </div>
 
                     @if(!\Carbon\Carbon::parse($event->date)->isPast())

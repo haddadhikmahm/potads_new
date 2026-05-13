@@ -41,4 +41,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Child::class);
     }
+
+    public function articles()
+    {
+        return $this->hasMany(Article::class, 'author_id');
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_user')
+                    ->withPivot('status')
+                    ->withTimestamps();
+    }
 }

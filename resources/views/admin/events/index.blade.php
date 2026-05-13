@@ -22,6 +22,7 @@
                     <th class="px-8 py-5 font-bold">No</th>
                     <th class="px-8 py-5 font-bold">Judul Event</th>
                     <th class="px-8 py-5 font-bold">Tanggal</th>
+                    <th class="px-8 py-5 font-bold">Peserta</th>
                     <th class="px-8 py-5 font-bold">Status</th>
                     <th class="px-8 py-5 font-bold text-right">Aksi</th>
                 </tr>
@@ -48,6 +49,9 @@
                     </td>
                     <td class="px-8 py-6 text-slate-500 font-medium">
                         {{ \Carbon\Carbon::parse($event->event_date)->format('d M Y') }}
+                    </td>
+                    <td class="px-8 py-6 text-slate-500 font-bold">
+                        {{ $event->attendees()->count() }} Peserta
                     </td>
                     <td class="px-8 py-6">
                         @php

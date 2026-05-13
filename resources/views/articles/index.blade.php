@@ -15,9 +15,6 @@
             <p class="text-gray-500 text-xl leading-relaxed max-w-2xl">
                 Bergabunglah dengan kami untuk lokakarya, gala, dan jalan santai komunitas. Setiap acara adalah langkah menuju masa depan yang lebih cerah bagi semua.
             </p>
-            <a href="{{ route('articles.create') }}" class="bg-white border-2 border-potads-yellow text-potads-blue px-8 py-2.5 rounded-full text-sm font-bold shadow-sm hover:bg-potads-yellow hover:text-white transition btn-playful">
-                Buat Artikel
-            </a>
         </div>
     </header>
 
