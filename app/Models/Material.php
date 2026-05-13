@@ -23,6 +23,11 @@ class Material extends Model
         'quiz_data' => 'array',
     ];
 
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
+    }
+
     public function completedBy()
     {
         return $this->belongsToMany(User::class, 'user_material_progress', 'material_id', 'user_id')

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             FaqSeeder::class,
             MedicalInfoSeeder::class,
             SettingSeeder::class,
+            MaterialQuizSeeder::class,
         ]);
     }
 }

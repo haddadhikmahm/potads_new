@@ -41,6 +41,8 @@ class MaterialController extends Controller
             }
         }
 
+        $material->load('quizzes');
+        
         $otherMaterials = Material::where('id', '!=', $material->id)
                                   ->orderBy('sort_order')
                                   ->take(5)

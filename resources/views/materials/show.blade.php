@@ -57,8 +57,19 @@
                         score: 0,
                         currentQuestion: 0,
                         questions: {{ 
-                            count($material->quiz_data ?? []) > 0 
-                            ? json_encode($material->quiz_data) 
+                            $material->quizzes->count() > 0 
+                            ? json_encode($material->quizzes->map(function($q) {
+                                return [
+                                    'question' => $q->question,
+                                    'options' => [
+                                        'a' => $q->option_a,
+                                        'b' => $q->option_b,
+                                        'c' => $q->option_c,
+                                        'd' => $q->option_d,
+                                    ],
+                                    'answer' => $q->correct_answer
+                                ];
+                            })) 
                             : json_encode([
                                 [
                                     'question' => 'Apa tujuan utama dari materi pembelajaran ini?',
@@ -67,16 +78,6 @@
                                         'b' => 'Hanya untuk hiburan',
                                         'c' => 'Tidak ada tujuan',
                                         'd' => 'Mengisi waktu luang'
-                                    ],
-                                    'answer' => 'a'
-                                ],
-                                [
-                                    'question' => 'Apakah dukungan keluarga penting bagi anak dengan Down Syndrome?',
-                                    'options' => [
-                                        'a' => 'Sangat Penting',
-                                        'b' => 'Biasa saja',
-                                        'c' => 'Tidak perlu',
-                                        'd' => 'Beban'
                                     ],
                                     'answer' => 'a'
                                 ]
