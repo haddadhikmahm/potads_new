@@ -346,8 +346,8 @@
         }" @mousedown="if(readAloud) { speakText($event.target.innerText || $event.target.alt || 'Elemen tanpa teks') }">
         <!-- Main Button -->
         <button @click="open = !open" 
-                class="fixed bottom-8 left-8 z-[100] bg-purple-700 text-white w-16 h-16 rounded-2xl shadow-2xl hover:scale-110 transition-all flex items-center justify-center btn-playful group"
-                style="box-shadow: 0 6px 0 0 #4C1D95;">
+                class="fixed bottom-8 left-8 z-[100] bg-potads-blue text-white w-16 h-16 rounded-2xl shadow-2xl hover:scale-110 transition-all flex items-center justify-center btn-playful group"
+                style="box-shadow: 0 6px 0 0 #0D47A1;">
             <i data-lucide="accessibility" class="w-10 h-10"></i>
             <template x-if="activeCount > 0">
                 <span class="absolute -top-2 -right-2 bg-potads-yellow text-potads-blue w-7 h-7 rounded-full flex items-center justify-center font-black text-xs border-4 border-white shadow-lg animate-bounce" x-text="activeCount"></span>
@@ -364,7 +364,7 @@
             
             <div class="flex items-center justify-between mb-8">
                 <h3 class="text-potads-blue font-black text-xl flex items-center gap-3">
-                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center text-purple-700">
+                    <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-potads-blue">
                         <i data-lucide="eye" class="w-6 h-6"></i>
                     </div>
                     Asisten Aksesibilitas
@@ -379,7 +379,7 @@
                 <div class="space-y-4">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pembaca Layar</p>
                     <button @click="toggleReadAloud()" 
-                            :class="readAloud ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                            :class="readAloud ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                             class="w-full p-4 rounded-2xl text-left transition-all flex items-center justify-between">
                         <div class="flex items-center gap-4">
                             <i data-lucide="volume-2" class="w-6 h-6" :class="readAloud ? 'text-potads-yellow' : 'text-slate-400'"></i>
@@ -404,13 +404,13 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <button @click="textSpacing = textSpacing == 0 ? 2 : 0; save('textSpacing', textSpacing)" 
-                                :class="textSpacing > 0 ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="textSpacing > 0 ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="stretch-horizontal" class="w-6 h-6 mb-2" :class="textSpacing > 0 ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Spasi Huruf</span>
                         </button>
                         <button @click="lineHeight = lineHeight == 1.5 ? 2 : 1.5; save('lineHeight', lineHeight)" 
-                                :class="lineHeight > 1.5 ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="lineHeight > 1.5 ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="align-justify" class="w-6 h-6 mb-2" :class="lineHeight > 1.5 ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Jarak Baris</span>
@@ -423,25 +423,25 @@
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Warna & Penglihatan</p>
                     <div class="grid grid-cols-2 gap-3">
                         <button @click="highContrast = !highContrast; save('highContrast', highContrast)" 
-                                :class="highContrast ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="highContrast ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="contrast" class="w-6 h-6 mb-2" :class="highContrast ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Kontras</span>
                         </button>
                         <button @click="nightMode = !nightMode; save('nightMode', nightMode)" 
-                                :class="nightMode ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="nightMode ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="moon" class="w-6 h-6 mb-2" :class="nightMode ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Mode Malam</span>
                         </button>
                         <button @click="grayscale = !grayscale; save('grayscale', grayscale)" 
-                                :class="grayscale ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="grayscale ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="palette" class="w-6 h-6 mb-2" :class="grayscale ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Monokrom</span>
                         </button>
                         <button @click="lowSaturation = !lowSaturation; save('lowSaturation', lowSaturation)" 
-                                :class="lowSaturation ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="lowSaturation ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="sun-dim" class="w-6 h-6 mb-2" :class="lowSaturation ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Saturasi</span>
@@ -454,25 +454,25 @@
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Fokus & Alat Bantu</p>
                     <div class="grid grid-cols-2 gap-3">
                         <button @click="readingGuide = !readingGuide; save('readingGuide', readingGuide)" 
-                                :class="readingGuide ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="readingGuide ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="navigation" class="w-6 h-6 mb-2" :class="readingGuide ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Garis Bantu</span>
                         </button>
                         <button @click="highlightLinks = !highlightLinks; save('highlightLinks', highlightLinks)" 
-                                :class="highlightLinks ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="highlightLinks ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="link" class="w-6 h-6 mb-2" :class="highlightLinks ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Link Highlight</span>
                         </button>
                         <button @click="hideImages = !hideImages; save('hideImages', hideImages)" 
-                                :class="hideImages ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="hideImages ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="image-off" class="w-6 h-6 mb-2" :class="hideImages ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Sembunyi Foto</span>
                         </button>
                         <button @click="stopAnimations = !stopAnimations; save('stopAnimations', stopAnimations)" 
-                                :class="stopAnimations ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="stopAnimations ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="p-4 rounded-2xl text-center transition-all flex flex-col items-center">
                             <i data-lucide="video-off" class="w-6 h-6 mb-2" :class="stopAnimations ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[9px] font-black uppercase">Stop Animasi</span>
@@ -485,19 +485,19 @@
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Kebutuhan Khusus</p>
                     <div class="space-y-3">
                         <button @click="dyslexic = !dyslexic; save('dyslexic', dyslexic)" 
-                                :class="dyslexic ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="dyslexic ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="w-full p-4 rounded-2xl text-left transition-all flex items-center gap-4">
                             <i data-lucide="type" class="w-6 h-6" :class="dyslexic ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[10px] font-black uppercase block">Font Disleksia</span>
                         </button>
                         <button @click="bigCursor = !bigCursor; save('bigCursor', bigCursor)" 
-                                :class="bigCursor ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="bigCursor ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="w-full p-4 rounded-2xl text-left transition-all flex items-center gap-4">
                             <i data-lucide="mouse-pointer-2" class="w-6 h-6" :class="bigCursor ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[10px] font-black uppercase block">Kursor Besar</span>
                         </button>
                         <button @click="keyboardNav = !keyboardNav; save('keyboardNav', keyboardNav)" 
-                                :class="keyboardNav ? 'bg-purple-700 text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
+                                :class="keyboardNav ? 'bg-potads-blue text-white shadow-lg' : 'bg-slate-50 text-slate-600'"
                                 class="w-full p-4 rounded-2xl text-left transition-all flex items-center gap-4">
                             <i data-lucide="keyboard" class="w-6 h-6" :class="keyboardNav ? 'text-potads-yellow' : 'text-slate-400'"></i>
                             <span class="text-[10px] font-black uppercase block">Navigasi Keyboard</span>
