@@ -7,10 +7,26 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $events = Event::latest()->paginate(9);
-        return view('events.index', compact('events'));
+        $tab = $request->query('tab', 'upcoming');
+        
+        $query = Event::query();
+        
+        if ($tab === 'passed') {
+            $query->where('status', 'completed')
+                  ->orWhere('event_date', '<', now());
+        } elseif ($tab === 'ongoing') {
+            $query->where('status', 'ongoing')
+                  ->where('event_date', '>=', now());
+        } else {
+            $query->where('status', 'upcoming')
+                  ->where('event_date', '>=', now());
+        }
+
+        $events = $query->latest('event_date')->paginate(9)->appends(['tab' => $tab]);
+        
+        return view('events.index', compact('events', 'tab'));
     }
 
     public function show(Event $event)

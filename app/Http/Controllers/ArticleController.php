@@ -36,7 +36,6 @@ class ArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'nullable|string|max:255',
-            'status' => 'required|in:draft,published',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -47,6 +46,7 @@ class ArticleController extends Controller
 
         $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']) . '-' . rand(1000, 9999);
         $validated['author_id'] = auth()->id();
+        $validated['status'] = 'draft';
 
         Article::create($validated);
 
@@ -67,7 +67,6 @@ class ArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category' => 'nullable|string|max:255',
-            'status' => 'required|in:draft,published',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
@@ -79,6 +78,8 @@ class ArticleController extends Controller
         if ($article->title !== $validated['title']) {
             $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']) . '-' . rand(1000, 9999);
         }
+
+        $validated['status'] = 'draft';
 
         $article->update($validated);
 

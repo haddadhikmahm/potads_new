@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 
 class ContactMessageMail extends Mailable
 {
-    use Bus\Queueable, SerializesModels;
+    use Queueable, SerializesModels;
 
     public $msg;
 

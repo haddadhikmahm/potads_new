@@ -16,7 +16,8 @@ class Material extends Model
         'file_path', 
         'category', 
         'sort_order', 
-        'level'
+        'level',
+        'image'
     ];
 
     protected $casts = [

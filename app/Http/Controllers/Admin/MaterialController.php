@@ -9,9 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class MaterialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $materials = Material::orderBy('level')->orderBy('sort_order')->paginate(10);
+        $search = $request->query('search');
+        $materials = Material::when($search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                             ->orWhere('description', 'like', "%{$search}%")
+                             ->orWhere('category', 'like', "%{$search}%");
+            })
+            ->orderBy('level')
+            ->orderBy('sort_order')
+            ->paginate(10)
+            ->withQueryString();
         return view('admin.materials.index', compact('materials'));
     }
 

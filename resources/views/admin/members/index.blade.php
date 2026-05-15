@@ -6,8 +6,28 @@
 @section('header_breadcrumb', 'Management Portal')
 
 @section('content')
-<div class="mb-6 flex justify-end">
-    <a href="{{ route('register') }}" class="px-8 py-3 bg-potads-yellow text-slate-900 rounded-full font-bold shadow-lg shadow-yellow-400/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2">
+<div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <form action="{{ route('admin.members.index') }}" method="GET" class="flex gap-2 w-full md:w-auto">
+        <div class="relative w-full md:w-80">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                <i data-lucide="search" class="w-4 h-4"></i>
+            </span>
+            <input type="text" name="search" value="{{ request('search') }}" 
+                placeholder="Cari Nama, Username, Email..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm shadow-sm">
+        </div>
+        <button type="submit" class="p-2.5 bg-potads-blue text-white rounded-xl hover:bg-blue-800 transition-all flex items-center gap-2">
+            <i data-lucide="filter" class="w-5 h-5"></i>
+            <span class="text-xs font-bold md:hidden">Filter</span>
+        </button>
+        @if(request('search'))
+            <a href="{{ route('admin.members.index') }}" class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-all" title="Reset">
+                <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+            </a>
+        @endif
+    </form>
+
+    <a href="{{ route('admin.members.create') }}" class="px-8 py-3 bg-potads-yellow text-slate-900 rounded-full font-bold shadow-lg shadow-yellow-400/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2">
         <i data-lucide="plus-circle" class="w-5 h-5"></i>
         Tambah Member
     </a>

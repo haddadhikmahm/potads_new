@@ -14,10 +14,23 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::with('author')->latest()->paginate(10);
-        return view('admin.articles.index', compact('articles'));
+        $search = $request->query('search');
+        $articles = Article::with('author')
+            ->when($search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                             ->orWhere('content', 'like', "%{$search}%")
+                             ->orWhere('category', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $pendingArticles = Article::with('author')->where('status', 'draft')->whereHas('author', function($q) {
+            $q->where('role', 'user');
+        })->get();
+        return view('admin.articles.index', compact('articles', 'pendingArticles'));
     }
 
     /**

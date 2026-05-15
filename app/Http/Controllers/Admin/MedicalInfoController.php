@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\Storage;
 
 class MedicalInfoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $infos = MedicalInfo::latest()->paginate(10);
+        $search = $request->query('search');
+        $infos = MedicalInfo::when($search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                             ->orWhere('category', 'like', "%{$search}%")
+                             ->orWhere('address', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
         return view('admin.medical_infos.index', compact('infos'));
     }
 
@@ -26,7 +34,7 @@ class MedicalInfoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|in:akademis,medis',
+            'category' => 'required|in:akademis,medis,sekolah,rumah sakit,pusat tumbuh kembang',
             'status' => 'required|in:draft,published',
             'image' => 'nullable|image|max:2048',
             'address' => 'nullable|string|max:255',
@@ -55,7 +63,7 @@ class MedicalInfoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|in:akademis,medis',
+            'category' => 'required|in:akademis,medis,sekolah,rumah sakit,pusat tumbuh kembang',
             'status' => 'required|in:draft,published',
             'image' => 'nullable|image|max:2048',
             'address' => 'nullable|string|max:255',

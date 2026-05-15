@@ -6,7 +6,27 @@
 @section('header_breadcrumb', 'Academic & Medical Information')
 
 @section('content')
-<div class="mb-6 flex justify-end">
+<div class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <form action="{{ route('admin.medical-infos.index') }}" method="GET" class="flex gap-2 w-full md:w-auto">
+        <div class="relative w-full md:w-80">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                <i data-lucide="search" class="w-4 h-4"></i>
+            </span>
+            <input type="text" name="search" value="{{ request('search') }}" 
+                placeholder="Cari Judul, Kategori, Alamat..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm shadow-sm">
+        </div>
+        <button type="submit" class="p-2.5 bg-potads-blue text-white rounded-xl hover:bg-blue-800 transition-all flex items-center gap-2">
+            <i data-lucide="filter" class="w-5 h-5"></i>
+            <span class="text-xs font-bold md:hidden">Filter</span>
+        </button>
+        @if(request('search'))
+            <a href="{{ route('admin.medical-infos.index') }}" class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-all" title="Reset">
+                <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+            </a>
+        @endif
+    </form>
+
     <a href="{{ route('admin.medical-infos.create') }}" class="px-6 py-3 bg-potads-blue text-white rounded-xl font-bold shadow-lg shadow-blue-900/10 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-2">
         <i data-lucide="plus" class="w-5 h-5"></i>
         Tambah Info

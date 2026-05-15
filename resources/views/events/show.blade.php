@@ -40,7 +40,7 @@
                             </div>
                             <div>
                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Tanggal</p>
-                                <p class="text-lg font-bold text-gray-800">{{ \Carbon\Carbon::parse($event->date)->format('d F Y') }}</p>
+                                <p class="text-lg font-bold text-gray-800">{{ \Carbon\Carbon::parse($event->event_date)->format('d F Y') }}</p>
                             </div>
                         </div>
 
@@ -60,7 +60,7 @@
                             </div>
                             <div>
                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Status</p>
-                                <p class="text-lg font-bold text-potads-blue">{{ \Carbon\Carbon::parse($event->date)->isPast() ? 'Selesai' : 'Mendatang' }}</p>
+                                <p class="text-lg font-bold text-potads-blue">{{ \Carbon\Carbon::parse($event->event_date)->isPast() ? 'Selesai' : 'Mendatang' }}</p>
                             </div>
                         </div>
 
@@ -75,10 +75,36 @@
                         </div>
                     </div>
 
-                    @if(!\Carbon\Carbon::parse($event->date)->isPast())
+                    @if(!\Carbon\Carbon::parse($event->event_date)->isPast())
                         <div class="p-6 bg-blue-50 rounded-3xl border border-blue-100 mb-8">
                             <p class="text-sm font-semibold text-potads-blue">Tertarik bergabung?</p>
-                            <p class="text-xs text-gray-500 mt-1">Silakan datang langsung ke lokasi atau hubungi kami untuk informasi pendaftaran.</p>
+                            @auth
+                                @php
+                                    $isRegistered = auth()->user()->events()->where('event_id', $event->id)->exists();
+                                @endphp
+                                @if($isRegistered)
+                                    <p class="text-xs text-gray-500 mt-1 mb-4">Anda sudah terdaftar untuk mengikuti event ini.</p>
+                                    <form action="{{ route('events.register', $event) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full text-center bg-red-100 text-red-600 font-extrabold py-3 rounded-2xl hover:bg-red-200 transition-all">
+                                            Batal Daftar
+                                        </button>
+                                    </form>
+                                @else
+                                    <p class="text-xs text-gray-500 mt-1 mb-4">Silakan mendaftar secara online dengan menekan tombol di bawah.</p>
+                                    <form action="{{ route('events.register', $event) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full text-center bg-potads-blue text-white font-extrabold py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all transform active:scale-95">
+                                            Daftar Event
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                <p class="text-xs text-gray-500 mt-1 mb-4">Silakan login terlebih dahulu untuk mendaftar ke event ini.</p>
+                                <a href="{{ route('login') }}" class="block w-full text-center bg-white border-2 border-potads-blue text-potads-blue font-extrabold py-3 rounded-2xl hover:bg-blue-50 transition-all">
+                                    Login untuk Daftar
+                                </a>
+                            @endauth
                         </div>
                     @endif
 

@@ -12,9 +12,17 @@ class DonationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $donations = Donation::latest()->paginate(10);
+        $search = $request->query('search');
+        $donations = Donation::when($search, function($query, $search) {
+                return $query->where('donor_name', 'like', "%{$search}%")
+                             ->orWhere('note', 'like', "%{$search}%")
+                             ->orWhere('payment_status', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
         return view('admin.donations.index', compact('donations'));
     }
 

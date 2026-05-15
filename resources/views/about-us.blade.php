@@ -166,50 +166,32 @@
             <p class="text-gray-500 max-w-2xl mx-auto text-lg md:text-xl font-medium">Kenali para visioner, pendidik, dan aktivis yang bekerja tanpa lelah di balik layar.</p>
         </div>
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <!-- Team Member 1 -->
-            <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-yellow">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop" alt="Dr. Sarah Widjaja" class="w-full h-full object-cover">
+            @forelse($teams as $index => $team)
+                @php
+                    $borderColors = ['border-potads-yellow', 'border-potads-blue'];
+                    $borderColor = $borderColors[$index % 2];
+                @endphp
+                <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] {{ $borderColor }}">
+                    <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
+                        @if($team->image)
+                            <img src="{{ asset('storage/' . $team->image) }}" alt="{{ $team->name }}" class="w-full h-full object-cover">
+                        @else
+                            <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+                                <i data-lucide="user" class="w-24 h-24 text-slate-400"></i>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="p-8 flex-grow">
+                        <h4 class="font-bold text-potads-blue text-xl md:text-2xl mb-1">{{ $team->name }}</h4>
+                        <p class="text-potads-blue/80 text-[10px] font-black uppercase tracking-widest mb-4">{{ $team->role }}</p>
+                        <p class="text-gray-500 text-sm leading-relaxed">{{ $team->description }}</p>
+                    </div>
                 </div>
-                <div class="p-8 flex-grow">
-                    <h4 class="font-bold text-potads-blue text-xl md:text-2xl mb-1">Dr. Sarah Widjaja</h4>
-                    <p class="text-potads-blue/80 text-[10px] font-black uppercase tracking-widest mb-4">PENDIRI & DIREKTUR EKSEKUTIF</p>
-                    <p class="text-gray-500 text-sm leading-relaxed">Memimpin dengan empati dan pengalaman riset pendidikan selama 15 tahun.</p>
+            @empty
+                <div class="col-span-1 md:col-span-2 lg:col-span-4 text-center py-12">
+                    <p class="text-gray-500 font-medium text-lg">Belum ada data anggota tim yayasan.</p>
                 </div>
-            </div>
-            <!-- Team Member 2 -->
-            <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-blue">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop" alt="Marcus Chen" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8 flex-grow">
-                    <h4 class="font-bold text-potads-blue text-xl md:text-2xl mb-1">Marcus Chen</h4>
-                    <p class="text-potads-blue/80 text-[10px] font-black uppercase tracking-widest mb-4">DIREKTUR OPERASIONAL</p>
-                    <p class="text-gray-500 text-sm leading-relaxed">Dalang logistik yang memastikan sumber daya kami menjangkau pelosok terpencil.</p>
-                </div>
-            </div>
-            <!-- Team Member 3 -->
-            <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-yellow">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1961&auto=format&fit=crop" alt="Anita Putri" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8 flex-grow">
-                    <h4 class="font-bold text-potads-blue text-xl md:text-2xl mb-1">Anita Putri</h4>
-                    <p class="text-potads-blue/80 text-[10px] font-black uppercase tracking-widest mb-4">KETUA PERANCANG KURIKULUM</p>
-                    <p class="text-gray-500 text-sm leading-relaxed">Merancang pengalaman belajar adaptif yang selaras dengan budaya lokal.</p>
-                </div>
-            </div>
-            <!-- Team Member 4 -->
-            <div class="bg-[#F0F7FF] rounded-[2rem] overflow-hidden shadow-lg flex flex-col h-full border-b-[8px] border-potads-blue">
-                <div class="h-[350px] md:h-[400px] grayscale overflow-hidden bg-white">
-                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1887&auto=format&fit=crop" alt="Rizky Ramadhan" class="w-full h-full object-cover">
-                </div>
-                <div class="p-8 flex-grow">
-                    <h4 class="font-bold text-potads-blue text-xl md:text-2xl mb-1">Rizky Ramadhan</h4>
-                    <p class="text-potads-blue/80 text-[10px] font-black uppercase tracking-widest mb-4">KOORDINATOR RELAWAN</p>
-                    <p class="text-gray-500 text-sm leading-relaxed">Mengelola jaringan 500+ relawan bersemangat di seluruh penjuru negeri.</p>
-                </div>
-            </div>
+            @endforelse
         </div>
     </section>
 
@@ -283,46 +265,21 @@
             <h2 class="text-3xl md:text-5xl font-extrabold text-potads-blue leading-tight">Tanya Jawab</h2>
         </div>
         <div class="max-w-4xl mx-auto space-y-4 md:space-y-6" x-data="{ active: null }">
-            <!-- FAQ 1 -->
-            <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                <button @click="active = active === 1 ? null : 1" class="w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center bg-white group">
-                    <span class="font-black text-potads-blue text-left uppercase text-xs md:text-sm tracking-[0.2em] group-hover:text-potads-yellow transition">BAGAIMANA CARA MENJADI RELAWAN?</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5 md:w-6 md:h-6 text-potads-yellow transition-transform duration-300" :class="active === 1 ? 'rotate-180' : ''"></i>
-                </button>
-                <div x-show="active === 1" x-collapse class="px-6 md:px-10 pb-6 md:pb-10 text-gray-500 text-base md:text-lg leading-relaxed">
-                    Anda dapat mendaftar melalui formulir online di halaman Kontak kami atau datang langsung ke kantor cabang POTADS terdekat. Kami selalu menyambut tangan-tangan yang ingin membantu.
+            @forelse($faqs as $faq)
+                <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition duration-300">
+                    <button @click="active = active === {{ $faq->id }} ? null : {{ $faq->id }}" class="w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center bg-white group focus:outline-none">
+                        <span class="font-black text-potads-blue text-left uppercase text-xs md:text-sm tracking-[0.2em] group-hover:text-potads-yellow transition">{{ $faq->question }}</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 md:w-6 md:h-6 text-potads-yellow transition-transform duration-300" :class="active === {{ $faq->id }} ? 'rotate-180' : ''"></i>
+                    </button>
+                    <div x-show="active === {{ $faq->id }}" x-cloak x-collapse class="px-6 md:px-10 pb-6 md:pb-10 text-gray-500 text-base md:text-lg leading-relaxed">
+                        {!! nl2br(e($faq->answer)) !!}
+                    </div>
                 </div>
-            </div>
-            <!-- FAQ 2 -->
-            <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                <button @click="active = active === 2 ? null : 2" class="w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center bg-white group">
-                    <span class="font-black text-potads-blue text-left uppercase text-xs md:text-sm tracking-[0.2em] group-hover:text-potads-yellow transition">KE MANA DONASI SAYA DISALURKAN?</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5 md:w-6 md:h-6 text-potads-yellow transition-transform duration-300" :class="active === 2 ? 'rotate-180' : ''"></i>
-                </button>
-                <div x-show="active === 2" x-collapse class="px-6 md:px-10 pb-6 md:pb-10 text-gray-500 text-base md:text-lg leading-relaxed">
-                    Setiap donasi digunakan untuk membiayai program edukasi, terapi bagi anak-anak kurang mampu, serta operasional pusat informasi dan konsultasi kami.
+            @empty
+                <div class="text-center py-10">
+                    <p class="text-gray-400 font-medium">Belum ada pertanyaan terdaftar saat ini.</p>
                 </div>
-            </div>
-            <!-- FAQ 3 -->
-            <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                <button @click="active = active === 3 ? null : 3" class="w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center bg-white group">
-                    <span class="font-black text-potads-blue text-left uppercase text-xs md:text-sm tracking-[0.2em] group-hover:text-potads-yellow transition">APAKAH INI ORGANISASI KEAGAMAAN?</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5 md:w-6 md:h-6 text-potads-yellow transition-transform duration-300" :class="active === 3 ? 'rotate-180' : ''"></i>
-                </button>
-                <div x-show="active === 3" x-collapse class="px-6 md:px-10 pb-6 md:pb-10 text-gray-500 text-base md:text-lg leading-relaxed">
-                    Tidak, POTADS adalah organisasi non-profit independen yang bersifat inklusif dan tidak berafiliasi dengan organisasi keagamaan atau politik mana pun.
-                </div>
-            </div>
-            <!-- FAQ 4 -->
-            <div class="bg-white rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-md transition duration-300">
-                <button @click="active = active === 4 ? null : 4" class="w-full px-6 md:px-10 py-6 md:py-8 flex justify-between items-center bg-white group">
-                    <span class="font-black text-potads-blue text-left uppercase text-xs md:text-sm tracking-[0.2em] group-hover:text-potads-yellow transition">BOLEHKAH SAYA MENGUNJUNGI YAYASAN?</span>
-                    <i data-lucide="chevron-down" class="w-5 h-5 md:w-6 md:h-6 text-potads-yellow transition-transform duration-300" :class="active === 4 ? 'rotate-180' : ''"></i>
-                </button>
-                <div x-show="active === 4" x-collapse class="px-6 md:px-10 pb-6 md:pb-10 text-gray-500 text-base md:text-lg leading-relaxed">
-                    Tentu saja! Kami sangat senang menerima kunjungan. Harap hubungi kami terlebih dahulu untuk membuat janji kunjungan agar kami dapat menyambut Anda dengan baik.
-                </div>
-            </div>
+            @endforelse
         </div>
     </section>
 

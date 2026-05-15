@@ -15,7 +15,9 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/about', function () {
-    return view('about-us');
+    $faqs = \App\Models\Faq::where('is_active', true)->orderBy('order')->get();
+    $teams = \App\Models\Team::where('is_active', true)->orderBy('order')->get();
+    return view('about-us', compact('faqs', 'teams'));
 })->name('about');
 Route::post('/about', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
@@ -65,6 +67,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('children', \App\Http\Controllers\Admin\ChildController::class);
     Route::resource('materials', \App\Http\Controllers\Admin\MaterialController::class);
     Route::resource('faqs', \App\Http\Controllers\Admin\FaqController::class);
+    Route::resource('teams', \App\Http\Controllers\Admin\TeamController::class);
     Route::resource('medical-infos', \App\Http\Controllers\Admin\MedicalInfoController::class);
     Route::resource('donations', \App\Http\Controllers\Admin\DonationController::class);
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');

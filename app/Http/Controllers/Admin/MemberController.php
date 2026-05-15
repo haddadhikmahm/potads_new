@@ -10,10 +10,49 @@ use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $members = User::where('role', '!=', 'superadmin')->latest()->paginate(10);
+        $search = $request->query('search');
+        $members = User::where('role', '!=', 'superadmin')
+            ->when($search, function($query, $search) {
+                return $query->where(function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                      ->orWhere('username', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%")
+                      ->orWhere('phone', 'like', "%{$search}%");
+                });
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
         return view('admin.members.index', compact('members'));
+    }
+
+    public function create()
+    {
+        return view('admin.members.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'profession' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'is_parent' => ['required', 'boolean'],
+            'username' => ['required', 'string', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'in:user,admin'],
+        ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        User::create($validated);
+
+        return redirect()->route('admin.members.index')->with('success', 'Member baru berhasil ditambahkan.');
     }
 
     public function edit(User $member)

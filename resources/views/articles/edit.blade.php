@@ -70,10 +70,11 @@
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Status Publikasi</label>
-                                <select name="status" class="w-full bg-white border border-gray-200 rounded-xl py-3 px-6 text-sm focus:outline-none focus:ring-2 focus:ring-potads-blue/20 transition appearance-none cursor-pointer">
-                                    <option value="draft" {{ old('status', $article->status) == 'draft' ? 'selected' : '' }}>Simpan sebagai Draf</option>
-                                    <option value="published" {{ old('status', $article->status) == 'published' ? 'selected' : '' }}>Terbitkan Sekarang</option>
-                                </select>
+                                <div class="w-full bg-yellow-50 border border-yellow-100 rounded-xl py-3 px-6 text-sm text-yellow-700 font-bold flex items-center gap-2">
+                                    <i data-lucide="clock" class="w-4 h-4"></i>
+                                    Menunggu Persetujuan Admin
+                                </div>
+                                <p class="text-[10px] text-gray-400 mt-2">Setiap perubahan akan ditinjau kembali oleh admin sebelum ditampilkan secara publik.</p>
                             </div>
                         </div>
                     </div>

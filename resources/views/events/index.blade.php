@@ -15,9 +15,10 @@
 
         <!-- Filters -->
         <div class="flex flex-wrap gap-4 mb-20">
-            <button class="bg-potads-yellow text-potads-blue font-extrabold px-10 py-2.5 rounded-full btn-playful shadow-lg transition">Upcoming</button>
-            <button class="bg-white text-potads-blue/60 font-bold px-10 py-2.5 rounded-full border-2 border-potads-blue/10 hover:bg-gray-50 transition btn-playful">Recent</button>
-            <button class="bg-white text-potads-blue/60 font-bold px-10 py-2.5 rounded-full border-2 border-potads-blue/10 hover:bg-gray-50 transition btn-playful">Passed</button>
+            @php $currentTab = request('tab', 'upcoming'); @endphp
+            <a href="{{ route('events.index', ['tab' => 'upcoming']) }}" class="{{ $currentTab === 'upcoming' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-lg border-2 border-transparent' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-10 py-2.5 rounded-full transition btn-playful">Upcoming</a>
+            <a href="{{ route('events.index', ['tab' => 'ongoing']) }}" class="{{ $currentTab === 'ongoing' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-lg border-2 border-transparent' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-10 py-2.5 rounded-full transition btn-playful">Ongoing</a>
+            <a href="{{ route('events.index', ['tab' => 'passed']) }}" class="{{ $currentTab === 'passed' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-lg border-2 border-transparent' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-10 py-2.5 rounded-full transition btn-playful">Passed</a>
         </div>
     </header>
 
@@ -32,11 +33,11 @@
                 @if(isset($events_list[0]))
                     @php $event = $events_list[0]; @endphp
                     <div class="lg:col-span-7 relative h-[600px] md:h-[750px] rounded-[3rem] overflow-hidden group shadow-2xl border-4 border-white bg-white">
-                        <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-1000">
+                        <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover brightness-75 group-hover:brightness-50 group-hover:scale-105 transition-all duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-potads-blue/20 to-transparent p-12 flex flex-col justify-end">
                             <h3 class="text-4xl md:text-5xl font-black text-white mb-8 leading-tight max-w-2xl">{{ $event->title }}</h3>
                             <div class="flex flex-wrap gap-8 text-white/90 text-base font-medium">
-                                <span class="flex items-center gap-3"><i data-lucide="calendar" class="w-5 h-5 text-potads-yellow"></i> {{ \Carbon\Carbon::parse($event->date)->format('d Agusus Y') }}</span>
+                                <span class="flex items-center gap-3"><i data-lucide="calendar" class="w-5 h-5 text-potads-yellow"></i> {{ \Carbon\Carbon::parse($event->event_date)->locale('id')->translatedFormat('d F Y') }}</span>
                                 <span class="flex items-center gap-3"><i data-lucide="map-pin" class="w-5 h-5 text-potads-yellow"></i> {{ $event->location }}</span>
                             </div>
                         </div>
@@ -52,11 +53,11 @@
                 @if(isset($events_list[1]))
                     @php $event = $events_list[1]; @endphp
                     <div class="lg:col-span-5 relative h-[450px] md:h-[550px] rounded-[3rem] overflow-hidden group shadow-2xl self-start border-4 border-white bg-white">
-                        <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-1000">
+                        <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover brightness-75 group-hover:brightness-50 group-hover:scale-105 transition-all duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-transparent to-transparent p-10 flex flex-col justify-end">
                             <h3 class="text-3xl font-black text-white mb-6 leading-tight">{{ $event->title }}</h3>
                             <div class="flex flex-col gap-3 text-white/90 text-sm font-medium">
-                                <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-potads-yellow"></i> {{ \Carbon\Carbon::parse($event->date)->format('d Agusus Y') }}</span>
+                                <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-potads-yellow"></i> {{ \Carbon\Carbon::parse($event->event_date)->locale('id')->translatedFormat('d F Y') }}</span>
                                 <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-potads-yellow"></i> {{ $event->location }}</span>
                             </div>
                         </div>
@@ -76,15 +77,15 @@
                         <!-- Date Badge -->
                         <div class="absolute top-0 left-0 z-20">
                             <div class="bg-potads-yellow text-potads-blue font-black px-6 py-2 rounded-br-2xl text-sm">
-                                {{ \Carbon\Carbon::parse($event->date)->format('d F Y') }}
+                                {{ \Carbon\Carbon::parse($event->event_date)->locale('id')->translatedFormat('d F Y') }}
                             </div>
                         </div>
                         
-                        <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover brightness-75 group-hover:brightness-50 group-hover:scale-105 transition-all duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/95 via-transparent to-transparent p-8 flex flex-col justify-end">
                             <h3 class="text-2xl font-black text-white leading-tight mb-4">{{ $event->title }}</h3>
                             <div class="flex flex-col gap-2 text-white/70 text-xs font-medium">
-                                <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-3.5 h-3.5 text-potads-yellow"></i> {{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}</span>
+                                <span class="flex items-center gap-2"><i data-lucide="calendar" class="w-3.5 h-3.5 text-potads-yellow"></i> {{ \Carbon\Carbon::parse($event->event_date)->locale('id')->translatedFormat('d M Y') }}</span>
                                 <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-potads-yellow"></i> {{ $event->location }}</span>
                             </div>
                         </div>

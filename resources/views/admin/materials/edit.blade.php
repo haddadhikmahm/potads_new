@@ -6,7 +6,7 @@
 @section('header_breadcrumb', 'Edit Existing Material')
 
 @section('content')
-<div class="max-w-4xl">
+<div class="w-full">
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 md:p-12">
         <form action="{{ route('admin.materials.update', $material) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
@@ -61,8 +61,9 @@
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider ml-1">URL Video (YouTube/Vimeo)</label>
                                     <input type="url" name="url" value="{{ old('url', $material->url) }}"
-                                        class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                                        class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('url') ring-2 ring-red-500/20 @enderror"
                                         placeholder="https://youtube.com/watch?v=...">
+                                    @error('url') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                                 </div>
                             </template>
                             <template x-if="type === 'file'">
@@ -72,7 +73,8 @@
                                         <p class="text-[10px] text-potads-blue font-bold mb-2">File saat ini: {{ basename($material->file_path) }}</p>
                                     @endif
                                     <input type="file" name="file"
-                                        class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-potads-blue/10 file:text-potads-blue hover:file:bg-potads-blue/20">
+                                        class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-potads-blue/10 file:text-potads-blue hover:file:bg-potads-blue/20 @error('file') ring-2 ring-red-500/20 @enderror">
+                                    @error('file') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                                 </div>
                             </template>
                         </div>
@@ -91,14 +93,16 @@
                         <div class="space-y-2">
                             <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Urutan (Step)</label>
                             <input type="number" name="sort_order" value="{{ old('sort_order', $material->sort_order) }}" required
-                                class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                                class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('sort_order') ring-2 ring-red-500/20 @enderror"
                                 placeholder="1, 2...">
+                            @error('sort_order') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                         </div>
                         <div class="space-y-2">
                             <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Level</label>
                             <input type="number" name="level" value="{{ old('level', $material->level) }}" required
-                                class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                                class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('level') ring-2 ring-red-500/20 @enderror"
                                 placeholder="Level 1, 2...">
+                            @error('level') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
                 </div>

@@ -191,7 +191,8 @@
                         ['route' => 'admin.materials.index', 'label' => 'Video & File Materi', 'icon' => 'play-circle'],
                         ['route' => 'admin.medical-infos.index', 'label' => 'Info Akademis & Medis', 'icon' => 'activity'],
                         ['route' => 'admin.faqs.index', 'label' => 'FAQ', 'icon' => 'help-circle'],
-                        ['route' => 'admin.members.index', 'label' => 'Member', 'icon' => 'users'],
+                        ['route' => 'admin.teams.index', 'label' => 'Tim Yayasan', 'icon' => 'users'],
+                        ['route' => 'admin.members.index', 'label' => 'Member', 'icon' => 'user-check'],
                         ['route' => 'admin.children.index', 'label' => 'Data Anak', 'icon' => 'smile'],
                         ['route' => 'admin.donations.index', 'label' => 'Donasi', 'icon' => 'heart'],
                         ['route' => 'admin.settings.index', 'label' => 'Site Settings', 'icon' => 'settings'],
@@ -239,12 +240,12 @@
                 </button>
 
                 <!-- Search Bar -->
-                <div class="hidden md:block flex-1 max-w-md relative">
+                <form action="{{ url()->current() }}" method="GET" class="hidden md:block flex-1 max-w-md relative">
                     <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                         <i data-lucide="search" class="w-5 h-5"></i>
                     </span>
-                    <input type="text" placeholder="Cari data..." class="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm">
-                </div>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari data..." class="w-full pl-12 pr-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm">
+                </form>
 
                 <!-- User Profile Dropdown -->
                 <div class="relative" x-data="{ open: false }" @click.away="open = false">

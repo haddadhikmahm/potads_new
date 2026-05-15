@@ -6,7 +6,27 @@
 @section('header_breadcrumb', 'MANAGEMENT PORTAL')
 
 @section('content')
-<div class="mb-10 flex justify-end">
+<div class="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <form action="{{ route('admin.articles.index') }}" method="GET" class="flex gap-2 w-full md:w-auto">
+        <div class="relative w-full md:w-80">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                <i data-lucide="search" class="w-4 h-4"></i>
+            </span>
+            <input type="text" name="search" value="{{ request('search') }}" 
+                placeholder="Cari Judul, Konten..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm shadow-sm">
+        </div>
+        <button type="submit" class="p-2.5 bg-potads-blue text-white rounded-xl hover:bg-blue-800 transition-all flex items-center gap-2">
+            <i data-lucide="filter" class="w-5 h-5"></i>
+            <span class="text-xs font-bold md:hidden">Filter</span>
+        </button>
+        @if(request('search'))
+            <a href="{{ route('admin.articles.index') }}" class="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-all" title="Reset">
+                <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+            </a>
+        @endif
+    </form>
+
     <a href="{{ route('admin.articles.create') }}" class="bg-potads-yellow text-potads-blue px-8 py-4 rounded-full font-bold hover:bg-white transition-all shadow-lg shadow-yellow-500/20 flex items-center gap-2 transform hover:-translate-y-1">
         <i data-lucide="plus-circle" class="w-5 h-5"></i>
         Tambah Artikel
@@ -34,10 +54,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-sm divide-y divide-slate-50">
-                    @php 
-                        $approvalArticles = $articles->filter(function($a) { return $a->author->role === 'user'; }); 
-                    @endphp
-                    @forelse($approvalArticles as $index => $article)
+                    @forelse($pendingArticles as $index => $article)
                     <tr class="hover:bg-slate-50/50 transition-colors group">
                         <td class="px-8 py-6 text-slate-400 font-medium">{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</td>
                         <td class="px-8 py-6">
