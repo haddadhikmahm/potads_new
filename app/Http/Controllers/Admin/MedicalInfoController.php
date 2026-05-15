@@ -50,7 +50,7 @@ class MedicalInfoController extends Controller
 
         MedicalInfo::create($data);
 
-        return redirect()->route('admin.medical_infos.index')->with('success', 'Info berhasil ditambahkan.');
+        return redirect()->route('admin.medical-infos.index')->with('success', 'Info berhasil ditambahkan.');
     }
 
     public function edit(MedicalInfo $medicalInfo)
@@ -85,7 +85,7 @@ class MedicalInfoController extends Controller
 
         $medicalInfo->update($data);
 
-        return redirect()->route('admin.medical_infos.index')->with('success', 'Info berhasil diperbarui.');
+        return redirect()->route('admin.medical-infos.index')->with('success', 'Info berhasil diperbarui.');
     }
 
     public function destroy(MedicalInfo $medicalInfo)
@@ -94,6 +94,6 @@ class MedicalInfoController extends Controller
             Storage::disk('public')->delete($medicalInfo->image);
         }
         $medicalInfo->delete();
-        return redirect()->route('admin.medical_infos.index')->with('success', 'Info berhasil dihapus.');
+        return redirect()->route('admin.medical-infos.index')->with('success', 'Info berhasil dihapus.');
     }
 }

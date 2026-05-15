@@ -14,8 +14,10 @@ class EventController extends Controller
         $query = Event::query();
         
         if ($tab === 'passed') {
-            $query->where('status', 'completed')
+            $query->where(function($q) {
+                $q->where('status', 'completed')
                   ->orWhere('event_date', '<', now());
+            });
         } elseif ($tab === 'ongoing') {
             $query->where('status', 'ongoing')
                   ->where('event_date', '>=', now());
@@ -24,7 +26,16 @@ class EventController extends Controller
                   ->where('event_date', '>=', now());
         }
 
-        $events = $query->latest('event_date')->paginate(9)->appends(['tab' => $tab]);
+        $search = $request->query('search');
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('location', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $events = $query->latest('event_date')->paginate(9)->withQueryString();
         
         return view('events.index', compact('events', 'tab'));
     }

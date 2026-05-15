@@ -71,7 +71,7 @@
                         {{ \Carbon\Carbon::parse($event->event_date)->format('d M Y') }}
                     </td>
                     <td class="px-8 py-6 text-slate-500 font-bold">
-                        {{ $event->attendees()->count() }} Peserta
+                        {{ $event->attendees_count }} Peserta
                     </td>
                     <td class="px-8 py-6">
                         @php
@@ -89,13 +89,16 @@
                     </td>
                     <td class="px-8 py-6">
                         <div class="flex items-center justify-end gap-2">
-                            <a href="{{ route('admin.events.edit', $event) }}" class="p-2.5 bg-white rounded-xl text-slate-400 hover:text-potads-blue hover:shadow-md transition-all border border-slate-100">
+                            <a href="{{ route('admin.events.show', $event) }}" class="p-2.5 bg-white rounded-xl text-slate-400 hover:text-potads-blue hover:shadow-md transition-all border border-slate-100" title="Lihat Peserta">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                            </a>
+                            <a href="{{ route('admin.events.edit', $event) }}" class="p-2.5 bg-white rounded-xl text-slate-400 hover:text-potads-blue hover:shadow-md transition-all border border-slate-100" title="Edit">
                                 <i data-lucide="edit-3" class="w-4 h-4"></i>
                             </a>
                             <form action="{{ route('admin.events.destroy', $event) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="p-2.5 bg-white rounded-xl text-slate-400 hover:text-red-500 hover:shadow-md transition-all border border-slate-100 btn-delete-confirm">
+                                <button type="submit" class="p-2.5 bg-white rounded-xl text-slate-400 hover:text-red-500 hover:shadow-md transition-all border border-slate-100 btn-delete-confirm" title="Hapus">
                                     <i data-lucide="trash-2" class="w-4 h-4"></i>
                                 </button>
                             </form>

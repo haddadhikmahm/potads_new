@@ -40,6 +40,7 @@
                 <tr class="bg-slate-50/50">
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Judul Info</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Kategori</th>
+                    <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Alamat & Kontak</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Status</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Terakhir Diperbarui</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider text-right">Aksi</th>
@@ -67,6 +68,18 @@
                         @else
                             <span class="px-3 py-1 bg-red-50 text-red-600 rounded-full text-[10px] font-bold uppercase tracking-wider">Medis</span>
                         @endif
+                    </td>
+                    <td class="px-8 py-5">
+                        <div class="flex flex-col gap-1">
+                            <span class="text-xs text-slate-600 flex items-center gap-1.5 font-medium">
+                                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
+                                {{ $info->address ?: '-' }}
+                            </span>
+                            <span class="text-[10px] text-slate-400 flex items-center gap-1.5">
+                                <i data-lucide="phone" class="w-3 h-3"></i>
+                                {{ $info->phone ?: '-' }}
+                            </span>
+                        </div>
                     </td>
                     <td class="px-8 py-5">
                         @if($info->status === 'published')

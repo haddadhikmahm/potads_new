@@ -9,7 +9,14 @@ class MaterialController extends Controller
 {
     public function index(Request $request)
     {
-        $materials = Material::orderBy('sort_order')->get();
+        $search = $request->query('search');
+        $materials = Material::when($search, function($query, $search) {
+                return $query->where('title', 'like', "%{$search}%")
+                             ->orWhere('description', 'like', "%{$search}%")
+                             ->orWhere('category', 'like', "%{$search}%");
+            })
+            ->orderBy('sort_order')
+            ->get();
         
         $completedMaterialIds = [];
         if (auth()->check()) {

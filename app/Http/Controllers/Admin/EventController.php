@@ -15,7 +15,8 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-        $events = Event::when($search, function($query, $search) {
+        $events = Event::withCount('attendees')
+            ->when($search, function($query, $search) {
                 return $query->where('title', 'like', "%{$search}%")
                              ->orWhere('location', 'like', "%{$search}%");
             })
@@ -23,6 +24,17 @@ class EventController extends Controller
             ->paginate(10)
             ->withQueryString();
         return view('admin.events.index', compact('events'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Event $event)
+    {
+        $event->load(['attendees' => function($query) {
+            $query->latest('event_user.created_at');
+        }]);
+        return view('admin.events.show', compact('event'));
     }
 
     /**
