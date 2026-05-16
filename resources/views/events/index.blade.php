@@ -32,7 +32,7 @@
                 <!-- Large Featured Card -->
                 @if(isset($events_list[0]))
                     @php $event = $events_list[0]; @endphp
-                    <div class="lg:col-span-7 relative h-[600px] md:h-[750px] rounded-[3rem] overflow-hidden group shadow-2xl border-4 border-white bg-white">
+                    <a href="{{ route('events.show', $event) }}" class="lg:col-span-7 relative h-[600px] md:h-[750px] rounded-[3rem] overflow-hidden group shadow-2xl border-4 border-white bg-white block">
                         <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover brightness-75 group-hover:brightness-50 group-hover:scale-105 transition-all duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-potads-blue/20 to-transparent p-12 flex flex-col justify-end">
                             <h3 class="text-4xl md:text-5xl font-black text-white mb-8 leading-tight max-w-2xl">{{ $event->title }}</h3>
@@ -41,18 +41,18 @@
                                 <span class="flex items-center gap-3"><i data-lucide="map-pin" class="w-5 h-5 text-potads-yellow"></i> {{ $event->location }}</span>
                             </div>
                         </div>
-                        <a href="{{ route('events.show', $event) }}" class="absolute bottom-12 right-12">
+                        <div class="absolute bottom-12 right-12 z-20">
                             <div class="bg-white/20 backdrop-blur-md p-4 rounded-full text-white hover:bg-potads-yellow hover:text-potads-blue transition-all duration-300">
                                 <i data-lucide="arrow-up-right" class="w-8 h-8"></i>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 @endif
 
                 <!-- Secondary Card -->
                 @if(isset($events_list[1]))
                     @php $event = $events_list[1]; @endphp
-                    <div class="lg:col-span-5 relative h-[450px] md:h-[550px] rounded-[3rem] overflow-hidden group shadow-2xl self-start border-4 border-white bg-white">
+                    <a href="{{ route('events.show', $event) }}" class="lg:col-span-5 relative h-[450px] md:h-[550px] rounded-[3rem] overflow-hidden group shadow-2xl self-start border-4 border-white bg-white block">
                         <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover brightness-75 group-hover:brightness-50 group-hover:scale-105 transition-all duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-transparent to-transparent p-10 flex flex-col justify-end">
                             <h3 class="text-3xl font-black text-white mb-6 leading-tight">{{ $event->title }}</h3>
@@ -61,19 +61,19 @@
                                 <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-potads-yellow"></i> {{ $event->location }}</span>
                             </div>
                         </div>
-                        <a href="{{ route('events.show', $event) }}" class="absolute bottom-10 right-10">
+                        <div class="absolute bottom-10 right-10 z-20">
                             <div class="bg-white/20 backdrop-blur-md p-3 rounded-full text-white hover:bg-potads-yellow hover:text-potads-blue transition-all">
                                 <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 @endif
             </div>
 
             <!-- Bottom Row Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 @foreach(array_slice($events_list, 2) as $event)
-                    <div class="relative h-[400px] rounded-[2.5rem] overflow-hidden group shadow-xl border-4 border-white bg-white">
+                    <a href="{{ route('events.show', $event) }}" class="relative h-[400px] rounded-[2.5rem] overflow-hidden group shadow-xl border-4 border-white bg-white block">
                         <!-- Date Badge -->
                         <div class="absolute top-0 left-0 z-20">
                             <div class="bg-potads-yellow text-potads-blue font-black px-6 py-2 rounded-br-2xl text-sm">
@@ -89,12 +89,12 @@
                                 <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-potads-yellow"></i> {{ $event->location }}</span>
                             </div>
                         </div>
-                        <a href="{{ route('events.show', $event) }}" class="absolute bottom-10 right-10">
+                        <div class="absolute bottom-10 right-10 z-20">
                             <div class="bg-white/10 backdrop-blur-md p-3 rounded-full text-white hover:bg-potads-yellow hover:text-potads-blue transition-all">
                                 <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
                             </div>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 @endforeach
             </div>
 

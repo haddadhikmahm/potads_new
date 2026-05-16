@@ -175,7 +175,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($events as $event)
-                <div class="relative h-[400px] rounded-3xl overflow-hidden group bg-white border-4 border-white shadow-xl hover:-translate-y-2 transition duration-300">
+                <a href="{{ route('events.show', $event) }}" class="relative h-[400px] rounded-3xl overflow-hidden group bg-white border-4 border-white shadow-xl hover:-translate-y-2 transition duration-300 block">
                     <img src="{{ Str::startsWith($event->image, 'http') ? $event->image : asset('storage/' . $event->image) }}" alt="{{ $event->title }}" class="absolute inset-0 w-full h-full object-cover z-0">
                     <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent p-10 flex flex-col justify-end z-10">
                         <h3 class="text-2xl font-bold text-white mb-4 relative z-20 shadow-sm">{{ $event->title }}</h3>
@@ -184,12 +184,12 @@
                             <span class="flex items-center gap-2 drop-shadow-md"><i data-lucide="map-pin" class="w-4 h-4"></i> {{ $event->location }}</span>
                         </div>
                     </div>
-                    <a href="{{ route('events.show', $event) }}" class="absolute bottom-10 right-10">
+                    <div class="absolute bottom-10 right-10 z-20">
                         <div class="bg-white/20 p-3 rounded-full backdrop-blur-sm group-hover:bg-potads-yellow group-hover:text-potads-blue text-white transition">
                             <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
             @endforeach
         </div>
     </section>
