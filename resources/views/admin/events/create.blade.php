@@ -61,15 +61,17 @@
                     </div>
 
                     <div>
-                        <label for="link" class="block text-xs font-bold text-slate-700 mb-2 ml-1">Link Website (Opsional)</label>
+                        <label for="registration_link" class="block text-xs font-bold text-slate-700 mb-2 ml-1">Link Pendaftaran Eksternal (Opsional)</label>
                         <div class="relative">
                             <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400">
-                                <i data-lucide="link" class="w-4 h-4"></i>
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
                             </span>
-                            <input type="url" name="link" id="link" placeholder="https://example.com/pendaftaran" 
-                                   class="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm" 
-                                   value="{{ old('link') }}">
+                            <input type="url" name="registration_link" id="registration_link" placeholder="https://forms.gle/... (Kosongkan jika ingin pendaftaran di web ini)" 
+                                   class="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-potads-blue/5 text-sm @error('registration_link') border-red-500 @enderror" 
+                                   value="{{ old('registration_link') }}">
                         </div>
+                        <p class="text-[9px] text-slate-400 mt-2 ml-2 italic">* Jika diisi, pendaftaran di website ini akan dinonaktifkan dan dialihkan ke link tersebut.</p>
+                        @error('registration_link') <p class="text-red-500 text-[10px] mt-1 ml-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </div>

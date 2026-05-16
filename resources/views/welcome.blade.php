@@ -205,7 +205,11 @@
                 <p class="text-potads-blue/80 font-medium mb-8 leading-relaxed text-lg">
                     Apakah Anda memiliki ide untuk acara yang mendukung misi kami? Kami menawarkan sumber daya, ruang, dan dukungan organisasi untuk inisiatif yang dipimpin komunitas.
                 </p>
-                <button class="bg-potads-blue text-white font-extrabold px-10 py-4 rounded-full btn-playful text-lg">Hubungi Kami</button>
+                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $siteSettings['contact_phone'] ?? '') }}?text=Halo%20Admin%20POTADS,%20saya%20tertarik%20untuk%20mengadakan%20acara%20komunitas..." 
+                   target="_blank"
+                   class="inline-block bg-potads-blue text-white font-extrabold px-10 py-4 rounded-full btn-playful text-lg text-center">
+                    Hubungi Kami
+                </a>
             </div>
         </div>
     </section>

@@ -8,8 +8,10 @@
         <!-- Header -->
         <div class="text-center mb-20" data-aos="fade-up">
             <span class="text-xs font-black text-blue-600 uppercase tracking-[0.3em] mb-4 block">Learning Roadmap</span>
-            <h1 class="text-5xl font-black text-potads-blue mb-6">Materi Edukasi Orang Tua</h1>
-            <p class="text-gray-500 max-w-2xl mx-auto text-lg">Selesaikan setiap tahapan materi untuk membuka wawasan baru dalam mendampingi buah hati tercinta.</p>
+            <h1 class="text-5xl font-black text-potads-blue mb-6">
+                {{ $audience === 'child' ? 'Materi Edukasi Anak' : 'Materi Edukasi Orang Tua' }}
+            </h1>
+            <p class="text-gray-500 max-w-2xl mx-auto text-lg">Selesaikan setiap tahapan materi untuk membuka wawasan baru dalam mendampingi tumbuh kembang buah hati tercinta.</p>
         </div>
 
         <!-- Roadmap Path -->
@@ -40,6 +42,7 @@
                                 {{ $isLocked ? 'border-gray-100 opacity-60 grayscale' : '' }}">
                                 
                                 <div class="flex items-center gap-3 mb-4 {{ $index % 2 == 0 ? 'md:justify-end' : '' }}">
+                                    <span class="bg-blue-50 text-blue-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Level {{ $material->level }}</span>
                                     @if($isCompleted)
                                         <span class="bg-emerald-50 text-emerald-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Selesai</span>
                                     @elseif($isInProgress)
@@ -58,9 +61,19 @@
                                             <i data-lucide="lock" class="w-3.5 h-3.5"></i> Terkunci
                                         </button>
                                     @else
-                                        <a href="{{ route('materials.show', $material->id) }}" class="bg-potads-blue text-white font-black px-8 py-3 rounded-full text-xs hover:bg-blue-900 transition-all btn-playful flex items-center gap-2">
-                                            Mulai Belajar <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
-                                        </a>
+                                        <div class="flex flex-col sm:flex-row gap-3">
+                                            <a href="{{ route('materials.show', $material->id) }}" class="bg-potads-blue text-white font-black px-8 py-3 rounded-full text-xs hover:bg-blue-900 transition-all btn-playful flex items-center justify-center gap-2">
+                                                Mulai Belajar <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+                                            </a>
+                                            @if($isInProgress && auth()->check())
+                                                <form action="{{ route('materials.complete', $material->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="w-full bg-white border-2 border-potads-blue/10 text-potads-blue font-black px-8 py-3 rounded-full text-xs hover:bg-gray-50 transition-all flex items-center justify-center gap-2">
+                                                        Skip Materi <i data-lucide="skip-forward" class="w-3.5 h-3.5"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     @endif
                                 </div>
                             </div>

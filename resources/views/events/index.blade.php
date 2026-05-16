@@ -4,21 +4,21 @@
 
 @section('content')
     <!-- Header Section -->
-    <header class="px-6 md:px-12 lg:px-16 py-16 max-w-[1850px] mx-auto text-left" data-aos="fade-up">
-        <h1 class="text-6xl md:text-8xl font-black text-potads-blue mb-8 leading-[1.1]">
+    <header class="px-6 md:px-12 lg:px-16 py-20 md:py-32 max-w-[1850px] mx-auto text-center" data-aos="fade-up">
+        <h1 class="text-6xl md:text-8xl lg:text-9xl font-black text-potads-blue mb-10 leading-[1.1]">
             Koneksi <br>
-            <span class="ml-12 lg:ml-24 inline-block bg-potads-yellow px-8 py-2 rounded-[1.5rem] text-potads-blue">Komunitas</span>
+            <span class="inline-block bg-potads-yellow px-10 py-3 rounded-[2rem] text-potads-blue mt-4">Komunitas</span>
         </h1>
-        <p class="text-gray-500 max-w-3xl text-xl leading-relaxed mb-12">
-            Bergabunglah dengan kami untuk lokakarya, gala, dan jalan santai komunitas. Setiap acara adalah langkah menuju masa depan yang lebih cerah bagi semua.
+        <p class="text-gray-500 max-w-4xl mx-auto text-xl md:text-2xl leading-relaxed mb-16">
+            Bergabunglah dengan kami untuk lokakarya, gala, dan jalan santai komunitas. <br class="hidden md:block"> Setiap acara adalah langkah menuju masa depan yang lebih cerah bagi semua.
         </p>
 
         <!-- Filters -->
-        <div class="flex flex-wrap gap-4 mb-20">
+        <div class="flex flex-wrap justify-center gap-6 mb-12">
             @php $currentTab = request('tab', 'upcoming'); @endphp
-            <a href="{{ route('events.index', ['tab' => 'upcoming']) }}" class="{{ $currentTab === 'upcoming' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-lg border-2 border-transparent' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-10 py-2.5 rounded-full transition btn-playful">Upcoming</a>
-            <a href="{{ route('events.index', ['tab' => 'ongoing']) }}" class="{{ $currentTab === 'ongoing' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-lg border-2 border-transparent' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-10 py-2.5 rounded-full transition btn-playful">Ongoing</a>
-            <a href="{{ route('events.index', ['tab' => 'passed']) }}" class="{{ $currentTab === 'passed' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-lg border-2 border-transparent' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-10 py-2.5 rounded-full transition btn-playful">Passed</a>
+            <a href="{{ route('events.index', ['tab' => 'upcoming']) }}" class="{{ $currentTab === 'upcoming' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-xl border-2 border-transparent scale-110' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-12 py-3.5 rounded-full transition-all btn-playful">Upcoming</a>
+            <a href="{{ route('events.index', ['tab' => 'ongoing']) }}" class="{{ $currentTab === 'ongoing' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-xl border-2 border-transparent scale-110' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-12 py-3.5 rounded-full transition-all btn-playful">Ongoing</a>
+            <a href="{{ route('events.index', ['tab' => 'passed']) }}" class="{{ $currentTab === 'passed' ? 'bg-potads-yellow text-potads-blue font-extrabold shadow-xl border-2 border-transparent scale-110' : 'bg-white text-potads-blue/60 font-bold border-2 border-potads-blue/10 hover:bg-gray-50' }} px-12 py-3.5 rounded-full transition-all btn-playful">Passed</a>
         </div>
     </header>
 
@@ -127,9 +127,11 @@
                 <p class="text-gray-500 text-xl mb-12 leading-relaxed">
                     Apakah Anda memiliki ide untuk acara yang mendukung misi kami? Kami menawarkan sumber daya, ruang, dan dukungan organisasi untuk inisiatif yang dipimpin komunitas.
                 </p>
-                <button class="bg-potads-yellow text-potads-blue font-black px-12 py-5 rounded-full btn-playful text-lg">
+                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $siteSettings['contact_phone'] ?? '') }}?text=Halo%20Admin%20POTADS,%20saya%20tertarik%20untuk%20mengadakan%20acara%20komunitas..." 
+                   target="_blank"
+                   class="inline-block bg-potads-yellow text-potads-blue font-black px-12 py-5 rounded-full btn-playful text-lg text-center">
                     Hubungi Kami
-                </button>
+                </a>
             </div>
         </div>
     </section>

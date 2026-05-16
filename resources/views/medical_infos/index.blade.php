@@ -12,10 +12,9 @@
             @php
                 $categories = [
                     '' => 'Semua Sumber Daya',
-                    'Sekolah' => 'Sekolah',
-                    'Rumah Sakit' => 'Rumah Sakit',
-                    'Pusat Terapi' => 'Pusat Terapi',
-                    'Pusat Tumbuh Kembang' => 'Pusat Tumbuh Kembang'
+                    'sekolah' => 'Sekolah',
+                    'rumah sakit' => 'Rumah Sakit',
+                    'pusat tumbuh kembang' => 'Pusat Tumbuh Kembang'
                 ];
                 $currentCategory = request('category', '');
             @endphp
@@ -29,14 +28,21 @@
                 @endforeach
             </div>
 
-            <!-- Search Bar -->
-            <form action="{{ route('medical_infos.index') }}" method="GET" class="w-full xl:w-auto relative flex-shrink-0">
+            <!-- Search Bar & Location Filter -->
+            <form action="{{ route('medical_infos.index') }}" method="GET" class="w-full xl:w-auto flex flex-col md:flex-row gap-4 items-center">
                 @if(request('category'))
                     <input type="hidden" name="category" value="{{ request('category') }}">
                 @endif
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search......." class="pl-5 pr-20 py-2.5 rounded-full border-2 border-gray-200 focus:outline-none focus:border-potads-blue w-full xl:w-72 shadow-sm text-sm">
-                <button type="submit" class="absolute right-1 top-1.5 bottom-1.5 bg-potads-blue text-white px-5 rounded-full text-sm font-semibold hover:bg-blue-900 transition-colors btn-playful">
-                    Cari
+                <div class="relative w-full md:w-64">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari info..." class="pl-11 pr-4 py-2.5 rounded-full border-2 border-gray-200 focus:outline-none focus:border-potads-blue w-full shadow-sm text-sm">
+                </div>
+                <div class="relative w-full md:w-64">
+                    <i data-lucide="map-pin" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                    <input type="text" name="regency" value="{{ request('regency') }}" placeholder="Lokasi (Kota/Kab)..." class="pl-11 pr-4 py-2.5 rounded-full border-2 border-gray-200 focus:outline-none focus:border-potads-blue w-full shadow-sm text-sm">
+                </div>
+                <button type="submit" class="bg-potads-blue text-white px-8 py-2.5 rounded-full text-sm font-semibold hover:bg-blue-900 transition-colors btn-playful">
+                    Filter
                 </button>
             </form>
         </div>
@@ -69,16 +75,24 @@
                             {{ strip_tags($info->content) }}
                         </p>
                         
-                        <!-- Contact / Address placeholders based on mockup -->
+                        <!-- Contact / Address -->
                         <div class="space-y-2 mb-8 mt-auto">
                             <div class="flex items-start gap-3 text-sm text-gray-500">
                                 <i data-lucide="map-pin" class="w-4 h-4 text-potads-blue flex-shrink-0 mt-0.5"></i>
-                                <span>{{ $info->address ?? 'Alamat: Hubungi atau cek detail untuk alamat lengkap' }}</span>
+                                <span>
+                                    @if($info->regency || $info->district)
+                                        {{ $info->district ? 'Kec. ' . $info->district . ', ' : '' }}{{ $info->regency }}
+                                    @else
+                                        {{ $info->address ?? 'Alamat: Hubungi detail' }}
+                                    @endif
+                                </span>
                             </div>
-                            <div class="flex items-start gap-3 text-sm text-gray-500">
-                                <i data-lucide="phone" class="w-4 h-4 text-potads-blue flex-shrink-0 mt-0.5"></i>
-                                <span>{{ $info->phone ?? 'Kontak: Tersedia di detail halaman' }}</span>
-                            </div>
+                            @if($info->phone)
+                                <div class="flex items-start gap-3 text-sm text-gray-500">
+                                    <i data-lucide="phone" class="w-4 h-4 text-potads-blue flex-shrink-0 mt-0.5"></i>
+                                    <span>{{ $info->phone }}</span>
+                                </div>
+                            @endif
                         </div>
 
                         <a href="{{ route('medical_infos.show', $info->slug) }}" class="block w-full text-center bg-pastel-blue text-potads-blue px-6 py-3 rounded-full font-bold text-sm btn-playful">

@@ -193,18 +193,28 @@
                                             {{ \Illuminate\Support\Str::limit($event->location, 30) }}
                                         </div>
                                     </div>
-                                    <form action="{{ route('events.register', $event) }}" method="POST">
-                                        @csrf
+                                    <div class="space-y-3">
+                                        @php
+                                            $registeredCount = auth()->user()->events()->where('event_id', $event->id)->count();
+                                        @endphp
+                                        
                                         @if($isRegistered)
-                                            <button type="submit" class="w-full py-3 bg-red-50 text-red-600 font-bold rounded-xl text-sm hover:bg-red-100 transition-all">
-                                                Batal Daftar
-                                            </button>
-                                        @else
-                                            <button type="submit" class="w-full py-3 bg-potads-yellow text-potads-blue font-bold rounded-xl text-sm hover:bg-yellow-400 transition-all">
-                                                Daftar Event
-                                            </button>
+                                            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-center gap-2 mb-3">
+                                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
+                                                <span class="text-[10px] font-black text-emerald-700 uppercase tracking-wider">{{ $registeredCount }} Peserta Terdaftar</span>
+                                            </div>
                                         @endif
-                                    </form>
+
+                                        <a href="{{ route('events.show', $event) }}" class="block w-full py-3.5 {{ $isRegistered ? 'bg-white border-2 border-potads-blue/10 text-potads-blue' : 'bg-potads-yellow text-potads-blue shadow-lg shadow-yellow-200' }} font-black rounded-xl text-xs hover:scale-[1.02] transition-all text-center">
+                                            @if($isRegistered)
+                                                Kelola Peserta
+                                            @elseif($event->registration_link)
+                                                Daftar (Eksternal)
+                                            @else
+                                                Daftar Event
+                                            @endif
+                                        </a>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>

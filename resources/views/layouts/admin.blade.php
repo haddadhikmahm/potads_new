@@ -190,6 +190,7 @@
                         ['route' => 'admin.articles.index', 'label' => 'Berita/Artikel', 'icon' => 'file-text'],
                         ['route' => 'admin.materials.index', 'label' => 'Video & File Materi', 'icon' => 'play-circle'],
                         ['route' => 'admin.medical-infos.index', 'label' => 'Info Akademis & Medis', 'icon' => 'activity'],
+                        ['route' => 'admin.programs.index', 'label' => 'Program Yayasan', 'icon' => 'layout-grid'],
                         ['route' => 'admin.faqs.index', 'label' => 'FAQ', 'icon' => 'help-circle'],
                         ['route' => 'admin.teams.index', 'label' => 'Tim Yayasan', 'icon' => 'users'],
                         ['route' => 'admin.members.index', 'label' => 'Member', 'icon' => 'user-check'],
@@ -205,6 +206,7 @@
                         if ($item['label'] === 'Event' && request()->routeIs('admin.events.*')) $isActive = true;
                         if ($item['label'] === 'Berita/Artikel' && request()->routeIs('admin.articles.*')) $isActive = true;
                         if ($item['label'] === 'Donasi' && request()->routeIs('admin.donations.*')) $isActive = true;
+                        if ($item['label'] === 'Program Yayasan' && request()->routeIs('admin.programs.*')) $isActive = true;
                     @endphp
                     <a href="{{ $item['route'] !== '#' ? route($item['route']) : 'javascript:void(0)' }}" 
                        class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-200 group {{ $isActive ? 'bg-potads-yellow text-potads-blue font-bold shadow-lg shadow-yellow-500/20' : 'text-white/70 hover:bg-white/10 hover:text-white' }}">

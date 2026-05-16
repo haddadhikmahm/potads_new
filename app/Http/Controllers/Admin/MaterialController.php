@@ -41,6 +41,7 @@ class MaterialController extends Controller
             'image' => 'nullable|image|max:2048',
             'sort_order' => 'required|integer',
             'level' => 'required|integer|min:1',
+            'audience' => 'required|in:parent,child',
             'quiz_data' => 'nullable|array',
         ]);
 
@@ -107,6 +108,7 @@ class MaterialController extends Controller
             'image' => 'nullable|image|max:2048',
             'sort_order' => 'required|integer',
             'level' => 'required|integer|min:1',
+            'audience' => 'required|in:parent,child',
             'quiz_data' => 'nullable|array',
         ]);
 

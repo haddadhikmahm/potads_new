@@ -101,9 +101,26 @@
             <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'border-b-2 border-potads-yellow pb-1 text-potads-yellow' : 'hover:text-potads-yellow transition' }}">Tentang Kami</a>
             <a href="{{ route('events.index') }}" class="{{ request()->routeIs('events.*') ? 'border-b-2 border-potads-yellow pb-1 text-potads-yellow' : 'hover:text-potads-yellow transition' }}">Event</a>
             <a href="{{ route('articles.index') }}" class="{{ request()->routeIs('articles.*') ? 'border-b-2 border-potads-yellow pb-1 text-potads-yellow' : 'hover:text-potads-yellow transition' }}">Artikel</a>
-            <a href="{{ route('materials.index') }}" class="flex items-center gap-1 {{ request()->routeIs('materials.*') ? 'border-b-2 border-potads-yellow pb-1 text-potads-yellow' : 'hover:text-potads-yellow transition' }}">
-                Materi <i data-lucide="chevron-down" class="w-4 h-4"></i>
-            </a>
+            <!-- Materi Dropdown -->
+            <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                <button class="flex items-center gap-1 py-1 {{ request()->routeIs('materials.*') ? 'border-b-2 border-potads-yellow text-potads-yellow' : 'hover:text-potads-yellow transition' }} font-medium">
+                    Materi <i data-lucide="chevron-down" class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                </button>
+                <div x-show="open" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 translate-y-2"
+                     x-transition:enter-end="opacity-100 translate-y-0"
+                     class="absolute left-0 mt-0 w-48 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-[100]">
+                    <a href="{{ route('materials.index', ['audience' => 'parent']) }}" 
+                       class="block px-6 py-3 text-sm font-bold {{ request()->query('audience') === 'parent' || (!request()->query('audience') && request()->routeIs('materials.index')) ? 'bg-blue-50 text-potads-blue' : 'text-slate-600 hover:bg-slate-50' }}">
+                        Materi Orang Tua
+                    </a>
+                    <a href="{{ route('materials.index', ['audience' => 'child']) }}" 
+                       class="block px-6 py-3 text-sm font-bold {{ request()->query('audience') === 'child' ? 'bg-blue-50 text-potads-blue' : 'text-slate-600 hover:bg-slate-50' }}">
+                        Materi Anak
+                    </a>
+                </div>
+            </div>
             <a href="{{ route('medical_infos.index') }}" class="{{ request()->routeIs('medical_infos.*') ? 'border-b-2 border-potads-yellow pb-1 text-potads-yellow' : 'hover:text-potads-yellow transition' }}">Akademis & Medis</a>
         </div>
 
@@ -152,7 +169,15 @@
             <a href="{{ route('about') }}" class="w-full py-2 border-b border-white/10 {{ request()->routeIs('about') ? 'text-potads-yellow' : 'hover:text-white transition' }}">Tentang Kami</a>
             <a href="{{ route('events.index') }}" class="w-full py-2 border-b border-white/10 {{ request()->routeIs('events.*') ? 'text-potads-yellow' : 'hover:text-white transition' }}">Event</a>
             <a href="{{ route('articles.index') }}" class="w-full py-2 border-b border-white/10 {{ request()->routeIs('articles.*') ? 'text-potads-yellow' : 'hover:text-white transition' }}">Artikel</a>
-            <a href="{{ route('materials.index') }}" class="w-full py-2 border-b border-white/10 {{ request()->routeIs('materials.*') ? 'text-potads-yellow' : 'hover:text-white transition' }}">Materi</a>
+            <div class="w-full" x-data="{ open: false }">
+                <button @click="open = !open" class="w-full py-2 border-b border-white/10 flex items-center justify-center gap-2 {{ request()->routeIs('materials.*') ? 'text-potads-yellow' : 'hover:text-white transition' }}">
+                    Materi <i data-lucide="chevron-down" class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''"></i>
+                </button>
+                <div x-show="open" x-collapse class="bg-white/5 py-2 space-y-2">
+                    <a href="{{ route('materials.index', ['audience' => 'parent']) }}" class="block py-2 text-sm {{ request()->query('audience') === 'parent' ? 'text-potads-yellow' : 'text-white/70' }}">Materi Orang Tua</a>
+                    <a href="{{ route('materials.index', ['audience' => 'child']) }}" class="block py-2 text-sm {{ request()->query('audience') === 'child' ? 'text-potads-yellow' : 'text-white/70' }}">Materi Anak</a>
+                </div>
+            </div>
             <a href="{{ route('medical_infos.index') }}" class="w-full py-2 border-b border-white/10 {{ request()->routeIs('medical_infos.*') ? 'text-potads-yellow' : 'hover:text-white transition' }}">Akademis & Medis</a>
 
             @auth

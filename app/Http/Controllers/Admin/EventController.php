@@ -55,6 +55,7 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'event_date' => 'required|date',
             'location' => 'nullable|string|max:255',
+            'registration_link' => 'nullable|url',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|string|in:upcoming,ongoing,completed',
         ]);
@@ -86,6 +87,7 @@ class EventController extends Controller
             'description' => 'nullable|string',
             'event_date' => 'required|date',
             'location' => 'nullable|string|max:255',
+            'registration_link' => 'nullable|url',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|string|in:upcoming,ongoing,completed',
         ]);

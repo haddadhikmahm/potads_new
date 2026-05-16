@@ -17,7 +17,8 @@ Route::get('/', function () {
 Route::get('/about', function () {
     $faqs = \App\Models\Faq::where('is_active', true)->orderBy('order')->get();
     $teams = \App\Models\Team::where('is_active', true)->orderBy('order')->get();
-    return view('about-us', compact('faqs', 'teams'));
+    $programs = \App\Models\Program::latest()->get();
+    return view('about-us', compact('faqs', 'teams', 'programs'));
 })->name('about');
 Route::post('/about', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 
@@ -50,6 +51,9 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 Route::post('/events/{event}/register', [EventController::class, 'register'])->name('events.register')->middleware('auth');
 
+// Public Program Routes
+Route::get('/programs/{program:slug}', [\App\Http\Controllers\ProgramController::class, 'show'])->name('programs.show');
+
 Route::get('/dashboard', function () {
     if (auth()->user()->role === 'admin') {
         return redirect()->route('admin.dashboard');
@@ -70,6 +74,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('teams', \App\Http\Controllers\Admin\TeamController::class);
     Route::resource('medical-infos', \App\Http\Controllers\Admin\MedicalInfoController::class);
     Route::resource('donations', \App\Http\Controllers\Admin\DonationController::class);
+    Route::resource('programs', \App\Http\Controllers\Admin\ProgramController::class);
     Route::get('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
 });

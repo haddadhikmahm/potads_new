@@ -34,10 +34,12 @@ class MedicalInfoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|in:akademis,medis,sekolah,rumah sakit,pusat tumbuh kembang',
+            'category' => 'required|in:sekolah,rumah sakit,pusat tumbuh kembang',
             'status' => 'required|in:draft,published',
             'image' => 'nullable|image|max:2048',
             'address' => 'nullable|string|max:255',
+            'regency' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
         ]);
 
@@ -63,10 +65,12 @@ class MedicalInfoController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|in:akademis,medis,sekolah,rumah sakit,pusat tumbuh kembang',
+            'category' => 'required|in:sekolah,rumah sakit,pusat tumbuh kembang',
             'status' => 'required|in:draft,published',
             'image' => 'nullable|image|max:2048',
             'address' => 'nullable|string|max:255',
+            'regency' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
         ]);
 

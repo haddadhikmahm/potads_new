@@ -204,14 +204,22 @@
                                 <form action="{{ route('materials.complete', $material) }}" method="POST" x-show="!questions || questions.length === 0">
                                     @csrf
                                     <button type="submit" 
-                                            class="bg-potads-yellow text-potads-blue font-black px-12 py-5 rounded-full text-lg hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-200 btn-playful flex items-center gap-3 mx-auto">
-                                        Selesaikan Materi <i data-lucide="award" class="w-6 h-6"></i>
-                                    </button>
-                                </form>
-                                
-                                <div x-show="questions && questions.length > 0 && !quizFinished" class="bg-gray-100 text-gray-400 font-black px-12 py-5 rounded-full text-lg inline-flex items-center gap-3 cursor-not-allowed opacity-60">
-                                    Selesaikan Materi <i data-lucide="lock" class="w-5 h-5"></i>
-                                </div>
+                                             class="bg-potads-yellow text-potads-blue font-black px-12 py-5 rounded-full text-lg hover:bg-yellow-400 transition-all shadow-xl shadow-yellow-200 btn-playful flex items-center gap-3 mx-auto">
+                                         Selesaikan Materi <i data-lucide="award" class="w-6 h-6"></i>
+                                     </button>
+                                 </form>
+                                 
+                                 <div x-show="questions && questions.length > 0 && !quizFinished" class="flex flex-col items-center gap-4">
+                                     <div class="bg-gray-100 text-gray-400 font-black px-12 py-5 rounded-full text-lg inline-flex items-center gap-3 cursor-not-allowed opacity-60">
+                                         Selesaikan Materi <i data-lucide="lock" class="w-5 h-5"></i>
+                                     </div>
+                                     <form action="{{ route('materials.complete', $material) }}" method="POST">
+                                         @csrf
+                                         <button type="submit" class="text-slate-400 font-bold text-sm hover:text-potads-blue transition-colors flex items-center gap-2 mt-2">
+                                             Skip Materi & Lanjut <i data-lucide="skip-forward" class="w-4 h-4"></i>
+                                         </button>
+                                     </form>
+                                 </div>
                             </div>
                         @endif
                     </div>

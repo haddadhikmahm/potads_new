@@ -62,6 +62,11 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-potads-blue text-base">Alamat Lokasi</h4>
+                                @if($info->regency || $info->district)
+                                    <p class="text-potads-blue font-semibold text-sm mt-1">
+                                        {{ $info->district ? 'Kec. ' . $info->district . ', ' : '' }}{{ $info->regency }}
+                                    </p>
+                                @endif
                                 <p class="text-gray-500 text-sm mt-1">{{ $info->address ?? 'Silakan hubungi untuk alamat spesifik.' }}</p>
                             </div>
                         </div>

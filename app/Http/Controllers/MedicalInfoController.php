@@ -14,12 +14,18 @@ class MedicalInfoController extends Controller
         if ($request->has('search') && $request->search != '') {
             $query->where(function($q) use ($request) {
                 $q->where('title', 'like', '%' . $request->search . '%')
-                  ->orWhere('content', 'like', '%' . $request->search . '%');
+                  ->orWhere('content', 'like', '%' . $request->search . '%')
+                  ->orWhere('regency', 'like', '%' . $request->search . '%')
+                  ->orWhere('district', 'like', '%' . $request->search . '%');
             });
         }
 
         if ($request->has('category') && $request->category != '') {
             $query->where('category', $request->category);
+        }
+
+        if ($request->has('regency') && $request->regency != '') {
+            $query->where('regency', 'like', '%' . $request->regency . '%');
         }
 
         $infos = $query->get();

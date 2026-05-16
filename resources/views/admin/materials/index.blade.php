@@ -43,6 +43,7 @@
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Judul Materi</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Tipe</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Kategori</th>
+                    <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Target</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider">Tanggal</th>
                     <th class="px-8 py-4 text-[10px] font-bold text-potads-blue uppercase tracking-wider text-right">Aksi</th>
                 </tr>
@@ -77,6 +78,13 @@
                     </td>
                     <td class="px-8 py-5">
                         <span class="text-sm text-slate-500">{{ $material->category ?? '-' }}</span>
+                    </td>
+                    <td class="px-8 py-5">
+                        @if($material->audience === 'parent')
+                            <span class="text-xs font-bold text-potads-blue bg-blue-50 px-2 py-1 rounded-lg">Orang Tua</span>
+                        @else
+                            <span class="text-xs font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded-lg">Anak</span>
+                        @endif
                     </td>
                     <td class="px-8 py-5">
                         <span class="text-sm text-slate-500">{{ $material->created_at->format('d M Y') }}</span>

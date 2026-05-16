@@ -202,26 +202,22 @@
             <p class="text-gray-500 text-lg md:text-xl">Inisiatif nyata kami dalam mendukung kemajuan anak-anak istimewa.</p>
         </div>
         <div class="max-w-[1400px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            @php
-                $images = [
-                    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c',
-                    'https://images.unsplash.com/photo-1542810634-71277d95dcbb',
-                    'https://images.unsplash.com/photo-1509062522246-3755977927d7',
-                    'https://images.unsplash.com/photo-1511632765486-a01980e01a18',
-                    'https://images.unsplash.com/photo-1484665754804-74b091211472',
-                    'https://images.unsplash.com/photo-1522071823990-b99787a07a3c',
-                    'https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98',
-                    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c'
-                ];
-            @endphp
-            @foreach($images as $img)
-                <div class="aspect-[4/5] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden relative group cursor-pointer shadow-xl bg-white">
-                    <img src="{{ $img }}?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-4 md:p-8">
-                        <span class="text-white font-bold text-sm md:text-lg">Lihat Program</span>
+            @forelse($programs as $program)
+                <a href="{{ route('programs.show', $program->slug) }}" class="aspect-[4/5] rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden relative group cursor-pointer shadow-xl bg-white border-4 border-white transition-transform hover:-translate-y-2">
+                    <img src="{{ Str::startsWith($program->image, 'http') ? $program->image : asset('storage/' . $program->image) }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-potads-blue/90 via-potads-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 flex flex-col justify-end p-6 md:p-10">
+                        <h4 class="text-white font-black text-lg md:text-2xl mb-2 leading-tight">{{ $program->title }}</h4>
+                        <span class="text-potads-yellow font-black text-[10px] uppercase tracking-widest flex items-center gap-2">
+                            Lihat Program <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </span>
                     </div>
+                </a>
+            @empty
+                <div class="col-span-2 lg:col-span-4 text-center py-20 bg-white/30 rounded-[2.5rem] border-2 border-dashed border-white/50">
+                    <i data-lucide="layout-grid" class="w-12 h-12 text-white mx-auto mb-4 opacity-50"></i>
+                    <p class="text-white font-bold">Belum ada program yang terdaftar.</p>
                 </div>
-            @endforeach
+            @endforelse
         </div>
     </section>
 

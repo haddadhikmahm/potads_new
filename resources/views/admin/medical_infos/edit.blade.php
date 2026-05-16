@@ -6,7 +6,7 @@
 @section('header_breadcrumb', 'Edit Academic/Medical Info')
 
 @section('content')
-<div class="max-w-4xl">
+<div class="w-full">
     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 md:p-12">
         <form action="{{ route('admin.medical-infos.update', $medicalInfo) }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
@@ -28,8 +28,6 @@
                         <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Kategori</label>
                         <select name="category" required
                             class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('category') ring-2 ring-red-500/20 @enderror">
-                            <option value="akademis" {{ old('category', $medicalInfo->category) === 'akademis' ? 'selected' : '' }}>Info Akademis</option>
-                            <option value="medis" {{ old('category', $medicalInfo->category) === 'medis' ? 'selected' : '' }}>Info Medis</option>
                             <option value="sekolah" {{ old('category', $medicalInfo->category) === 'sekolah' ? 'selected' : '' }}>Sekolah</option>
                             <option value="rumah sakit" {{ old('category', $medicalInfo->category) === 'rumah sakit' ? 'selected' : '' }}>Rumah Sakit</option>
                             <option value="pusat tumbuh kembang" {{ old('category', $medicalInfo->category) === 'pusat tumbuh kembang' ? 'selected' : '' }}>Pusat Tumbuh Kembang</option>
@@ -72,23 +70,38 @@
                     @error('content') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <!-- Address -->
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Alamat Peta (Opsional)</label>
+                    <div class="space-y-2 lg:col-span-1">
+                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Alamat Lengkap</label>
                         <input type="text" name="address" value="{{ old('address', $medicalInfo->address) }}"
                             class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('address') ring-2 ring-red-500/20 @enderror"
-                            placeholder="Contoh: Bandung, Jawa Barat">
+                            placeholder="Jl. Contoh No. 123">
                         @error('address') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
                     </div>
 
+                    <!-- Regency -->
+                    <div class="space-y-2 lg:col-span-1">
+                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Kabupaten/Kota</label>
+                        <input type="text" name="regency" value="{{ old('regency', $medicalInfo->regency) }}"
+                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                            placeholder="Contoh: Bandung">
+                    </div>
+
+                    <!-- District -->
+                    <div class="space-y-2 lg:col-span-1">
+                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Kecamatan</label>
+                        <input type="text" name="district" value="{{ old('district', $medicalInfo->district) }}"
+                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                            placeholder="Contoh: Coblong">
+                    </div>
+
                     <!-- Phone -->
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Nomor Kontak (Opsional)</label>
+                    <div class="space-y-2 lg:col-span-1">
+                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Nomor Kontak</label>
                         <input type="text" name="phone" value="{{ old('phone', $medicalInfo->phone) }}"
-                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium @error('phone') ring-2 ring-red-500/20 @enderror"
-                            placeholder="Contoh: 08123456789">
-                        @error('phone') <p class="text-red-500 text-xs mt-1 ml-1">{{ $message }}</p> @enderror
+                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                            placeholder="08123456789">
                     </div>
                 </div>
             </div>

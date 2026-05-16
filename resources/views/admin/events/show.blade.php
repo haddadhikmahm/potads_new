@@ -75,8 +75,8 @@
                     <thead>
                         <tr class="text-slate-400 text-[10px] uppercase tracking-[0.2em] border-b border-slate-50 bg-slate-50/30">
                             <th class="px-8 py-5 font-bold">No</th>
-                            <th class="px-8 py-5 font-bold">Nama Lengkap</th>
-                            <th class="px-8 py-5 font-bold">Email / Username</th>
+                            <th class="px-8 py-5 font-bold">Pendaftar (Member)</th>
+                            <th class="px-8 py-5 font-bold">Peserta</th>
                             <th class="px-8 py-5 font-bold">No. WhatsApp</th>
                             <th class="px-8 py-5 font-bold">Tgl Daftar</th>
                             <th class="px-8 py-5 font-bold text-right">Status</th>
@@ -93,14 +93,35 @@
                                     <div class="w-8 h-8 rounded-full bg-potads-blue/10 flex items-center justify-center text-potads-blue text-[10px] font-bold">
                                         {{ substr($user->name, 0, 2) }}
                                     </div>
-                                    <span class="font-bold text-slate-700">{{ $user->name }}</span>
+                                    <div class="flex flex-col">
+                                        <span class="font-bold text-slate-700">{{ $user->name }}</span>
+                                        <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Member / Pendaftar</span>
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-8 py-6">
-                                <div class="flex flex-col">
-                                    <span class="text-slate-600">{{ $user->email }}</span>
-                                    <span class="text-[10px] text-slate-400">@ {{ $user->username }}</span>
-                                </div>
+                                @if($user->pivot->child_id)
+                                    @php $child = \App\Models\Child::find($user->pivot->child_id); @endphp
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-lg bg-yellow-50 flex items-center justify-center text-yellow-600">
+                                            <i data-lucide="smile" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <div>
+                                            <span class="font-black text-potads-blue block leading-none">{{ $child ? $child->name : 'Anak (Terhapus)' }}</span>
+                                            <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-1 block">Peserta (Anak)</span>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center text-potads-blue">
+                                            <i data-lucide="user" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <div>
+                                            <span class="font-black text-slate-700 block leading-none">{{ $user->name }}</span>
+                                            <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-1 block">Peserta (Orang Tua)</span>
+                                        </div>
+                                    </div>
+                                @endif
                             </td>
                             <td class="px-8 py-6 text-slate-500 font-medium">
                                 {{ $user->phone ?: '-' }}

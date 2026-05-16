@@ -80,12 +80,22 @@
                         </div>
                     </div>
 
-                    <!-- Category -->
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Kategori</label>
-                        <input type="text" name="category" value="{{ old('category', $material->category) }}"
-                            class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
-                            placeholder="Contoh: Seminar, Latihan, Artikel">
+                    <!-- Category & Audience -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Kategori</label>
+                            <input type="text" name="category" value="{{ old('category', $material->category) }}"
+                                class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium"
+                                placeholder="Contoh: Seminar, Latihan, Artikel">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-potads-blue uppercase tracking-wider ml-1">Target Audiens</label>
+                            <select name="audience" required
+                                class="w-full px-6 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-potads-blue/10 transition-all text-slate-700 font-medium">
+                                <option value="parent" {{ old('audience', $material->audience) == 'parent' ? 'selected' : '' }}>Materi Orang Tua</option>
+                                <option value="child" {{ old('audience', $material->audience) == 'child' ? 'selected' : '' }}>Materi Anak</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- Sort Order & Level -->

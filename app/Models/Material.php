@@ -17,7 +17,8 @@ class Material extends Model
         'category', 
         'sort_order', 
         'level',
-        'image'
+        'image',
+        'audience'
     ];
 
     protected $casts = [

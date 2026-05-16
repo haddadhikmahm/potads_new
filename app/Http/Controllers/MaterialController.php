@@ -10,11 +10,15 @@ class MaterialController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('search');
-        $materials = Material::when($search, function($query, $search) {
+        $audience = $request->query('audience', 'parent'); // Default to parent
+        
+        $materials = Material::where('audience', $audience)
+            ->when($search, function($query, $search) {
                 return $query->where('title', 'like', "%{$search}%")
                              ->orWhere('description', 'like', "%{$search}%")
                              ->orWhere('category', 'like', "%{$search}%");
             })
+            ->orderBy('level')
             ->orderBy('sort_order')
             ->get();
         
@@ -32,25 +36,34 @@ class MaterialController extends Controller
             }
         }
 
-        return view('materials.index', compact('materials', 'completedMaterialIds', 'nextToComplete'));
+        return view('materials.index', compact('materials', 'completedMaterialIds', 'nextToComplete', 'audience'));
     }
 
     public function show(Material $material)
     {
         // Check if previous material is completed
         if (auth()->check()) {
-            $prevMaterial = Material::where('sort_order', '<', $material->sort_order)
+            $prevMaterial = Material::where(function($q) use ($material) {
+                                        $q->where('level', '<', $material->level)
+                                          ->orWhere(function($q2) use ($material) {
+                                              $q2->where('level', $material->level)
+                                                 ->where('sort_order', '<', $material->sort_order);
+                                          });
+                                    })
+                                    ->orderBy('level', 'desc')
                                     ->orderBy('sort_order', 'desc')
                                     ->first();
             
             if ($prevMaterial && !auth()->user()->completedMaterials()->where('material_id', $prevMaterial->id)->exists()) {
-                return redirect()->route('materials.index')->with('error', 'Selesaikan materi sebelumnya terlebih dahulu!');
+                return redirect()->route('materials.index', ['audience' => $material->audience])->with('error', 'Selesaikan materi sebelumnya terlebih dahulu!');
             }
         }
 
         $material->load('quizzes');
         
-        $otherMaterials = Material::where('id', '!=', $material->id)
+        $otherMaterials = Material::where('audience', $material->audience)
+                                  ->where('id', '!=', $material->id)
+                                  ->orderBy('level')
                                   ->orderBy('sort_order')
                                   ->take(5)
                                   ->get();
@@ -63,7 +76,15 @@ class MaterialController extends Controller
         if (auth()->check()) {
             auth()->user()->completedMaterials()->syncWithoutDetaching([$material->id]);
             
-            $nextMaterial = Material::where('sort_order', '>', $material->sort_order)
+            $nextMaterial = Material::where('audience', $material->audience)
+                                    ->where(function($q) use ($material) {
+                                        $q->where('level', '>', $material->level)
+                                          ->orWhere(function($q2) use ($material) {
+                                              $q2->where('level', $material->level)
+                                                 ->where('sort_order', '>', $material->sort_order);
+                                          });
+                                    })
+                                    ->orderBy('level', 'asc')
                                     ->orderBy('sort_order', 'asc')
                                     ->first();
             
@@ -71,7 +92,7 @@ class MaterialController extends Controller
                 return redirect()->route('materials.show', $nextMaterial)->with('success', 'Selamat! Materi berhasil diselesaikan. Lanjut ke materi berikutnya!');
             }
             
-            return redirect()->route('materials.index')->with('success', 'Selamat! Anda telah menyelesaikan materi ini.');
+            return redirect()->route('materials.index', ['audience' => $material->audience])->with('success', 'Selamat! Anda telah menyelesaikan materi ini.');
         }
 
         return redirect()->back()->with('error', 'Silakan login untuk menyimpan progres belajar Anda.');
